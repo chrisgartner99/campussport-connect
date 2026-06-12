@@ -27,6 +27,26 @@ npm run dev
 npm run build
 ```
 
+## Datenbank-Setup
+
+1. `.env.example` nach `.env.local` kopieren und die Werte aus dem
+   Supabase-Dashboard (Project Settings → API) eintragen.
+2. Den Inhalt von [`supabase/schema.sql`](supabase/schema.sql) im
+   Supabase SQL Editor ausführen (legt Tabellen, Trigger, RLS-Policies
+   und Indizes an; kann gefahrlos erneut ausgeführt werden).
+3. Demo-Daten einspielen:
+
+   ```bash
+   node scripts/seed.mjs
+   ```
+
+   Das Skript ist idempotent – ein erneuter Lauf erzeugt keine
+   Duplikate.
+
+**Hinweis:** Alle Nutzer, Treffen und Orte sind Demo-Daten für den
+Prototyp. Die Demo-Accounts (z. B. `lena@demo.campussport.de`) haben
+einheitlich das Passwort `Demo1234!`.
+
 ## Feature → Pain Point aus Nutzerinterviews
 
 | Feature | Pain Point aus Nutzerinterviews |
