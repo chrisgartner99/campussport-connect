@@ -51,7 +51,7 @@ einheitlich das Passwort `Demo1234!`.
 
 | Feature | Pain Point aus Nutzerinterviews |
 | ------- | ------------------------------- |
-|         |                                 |
+| Onboarding mit Semesterabfrage | Fehlende Kontakte und Unsicherheit bei Erstsemestern |
 |         |                                 |
 |         |                                 |
 |         |                                 |

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import UserMenu from "@/components/UserMenu";
 
 const navItems = [
   { href: "/treffen", label: "Sporttreffen" },
@@ -6,7 +8,27 @@ const navItems = [
   { href: "/meine-treffen", label: "Meine Treffen" },
 ];
 
-export default function Header() {
+export default async function Header() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let vorname: string | null = null;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("name")
+      .eq("id", user.id)
+      .maybeSingle();
+    const name =
+      profile?.name ??
+      user.user_metadata?.name?.toString() ??
+      user.email ??
+      "Profil";
+    vorname = name.split(" ")[0];
+  }
+
   return (
     <header className="border-b border-zinc-200 bg-white">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
@@ -23,12 +45,16 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/login"
-            className="rounded-md bg-zinc-900 px-3 py-1.5 text-white hover:bg-zinc-700"
-          >
-            Login
-          </Link>
+          {vorname ? (
+            <UserMenu vorname={vorname} />
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-md bg-zinc-900 px-3 py-1.5 text-white hover:bg-zinc-700"
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>
