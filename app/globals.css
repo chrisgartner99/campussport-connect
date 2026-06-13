@@ -5,86 +5,97 @@
 
 /* ---------------------------------------------------------------------------
    Design-Tokens – Light (Default)
-   Markenfarben: kräftiges Türkis-Grün + Blau. Alle Text/Flächen-Paare
-   erfüllen WCAG AA (Fließtext ≥ 4.5:1).
+   Bold Sportmarke: dominantes Grün + scharfer Volt-Lime-Akzent.
+   Alle Text/Flächen-Paare erfüllen WCAG AA (Fließtext ≥ 4.5:1).
 --------------------------------------------------------------------------- */
 :root {
-  --base: #f6fbfc;          /* Seitenhintergrund (kühles Off-White) */
+  --base: #f6fcf8;          /* Seitenhintergrund (Off-White, grün angehaucht) */
   --surface: #ffffff;       /* Karten / Panels */
-  --surface-2: #eef5f6;     /* zweite Flächenebene, Toolbars */
-  --line: #d6e0e3;          /* Rahmen */
-  --ink: #1e282f;           /* Haupttext */
-  --muted: #576570;         /* Sekundärtext (5.7:1 auf base) */
+  --surface-2: #ebf4ef;     /* zweite Flächenebene, Toolbars */
+  --line: #d2ded8;          /* Rahmen */
+  --ink: #071a13;           /* Haupttext (17:1 auf base) */
+  --muted: #485e55;         /* Sekundärtext (6.7:1 auf base) */
 
-  --brand: #00b9a2;         /* Türkis-Grün, vivid – Akzente, Fokus, Fills */
-  --brand-strong: #007a6c;  /* Buttons, Links auf hell (5:1 auf base) */
-  --brand-soft: #d9f4ef;    /* getönte Fläche */
-  --on-brand-soft: #035c52; /* Text auf brand-soft */
+  --brand: #00ae74;         /* dominantes Grün, vivid – Fills, Fokus */
+  --brand-strong: #008156;  /* Buttons, Links auf hell (4.9:1 mit weiß) */
+  --brand-deep: #00573b;    /* große Farbblöcke (8.6:1 mit weiß) */
+  --brand-soft: #d8f7e6;    /* getönte Fläche */
+  --on-brand-soft: #005839; /* Text auf brand-soft */
   --on-brand: #ffffff;      /* Text auf gefülltem Brand-Button */
 
-  --blue: #2183d8;          /* Sekundär-Blau */
-  --blue-strong: #105fa6;   /* Sekundär-Buttons (6.6:1 mit weiß) */
+  --accent: #c6f248;        /* Volt-Lime – scharfer Akzent, sparsam */
+  --accent-strong: #aacf40; /* Volt für Flächen mit hellem Umfeld */
+  --on-accent: #071a13;     /* fast-schwarzer Text auf Volt (13.8:1) */
+
+  /* Blau bleibt als zusätzliche Sportart-Codierung erhalten. */
+  --blue: #2183d8;
+  --blue-strong: #105fa6;
   --blue-soft: #dcecfb;
   --on-blue-soft: #0d4d86;
   --on-blue: #ffffff;
 
-  --success: #33854a;
-  --success-soft: #dcf0e1;
-  --on-success-soft: #1f6336;
+  --success: #1f8a4c;
+  --success-soft: #d8f3e0;
+  --on-success-soft: #16683a;
 
   --warning: #b9740c;
   --warning-soft: #fbeccd;
   --on-warning-soft: #8a560a;
 
-  --danger: #c33939;
+  --danger: #cf4040;
   --danger-soft: #fadede;
   --on-danger-soft: #97292c;
   --on-danger: #ffffff;
 
-  --shadow-card: 0 1px 2px rgb(16 24 31 / 0.04), 0 4px 16px rgb(16 24 31 / 0.06);
-  --shadow-pop: 0 8px 30px rgb(16 24 31 / 0.14);
+  --shadow-card: 0 1px 2px rgb(7 26 19 / 0.05), 0 6px 20px rgb(7 26 19 / 0.07);
+  --shadow-pop: 0 12px 40px rgb(7 26 19 / 0.16);
 
   color-scheme: light;
 }
 
 /* ---------------------------------------------------------------------------
-   Design-Tokens – Dark
+   Design-Tokens – Dark (satt, tiefes Grün-Schwarz)
 --------------------------------------------------------------------------- */
 .dark {
-  --base: #10181f;
-  --surface: #182229;
-  --surface-2: #202c34;
-  --line: #343f47;
-  --ink: #e8f0f3;
-  --muted: #9eaeb4;         /* 7.8:1 auf base */
+  --base: #03130c;
+  --surface: #0b1e16;
+  --surface-2: #142920;
+  --line: #24382f;
+  --ink: #e8f1e9;
+  --muted: #9eb0a5;         /* 8.3:1 auf base */
 
-  --brand: #30ccb1;         /* heller in Dark (8.8:1 auf base) */
-  --brand-strong: #30ccb1;
-  --brand-soft: #103029;
-  --on-brand-soft: #5fe0c8;
-  --on-brand: #0c1117;      /* dunkler Text auf hellem Brand-Button */
+  --brand: #30c78d;         /* heller in Dark (8.8:1 auf base) */
+  --brand-strong: #30c78d;
+  --brand-deep: #0a4a33;
+  --brand-soft: #043726;
+  --on-brand-soft: #6bdeaa;
+  --on-brand: #03130c;      /* dunkler Text auf hellem Brand-Button */
+
+  --accent: #c6f248;        /* Volt knallt auf Dunkel (14.7:1) */
+  --accent-strong: #c6f248;
+  --on-accent: #071a13;
 
   --blue: #67b0f9;
   --blue-strong: #4a93e6;
-  --blue-soft: #122538;
+  --blue-soft: #122c3f;
   --on-blue-soft: #8cc4fb;
-  --on-blue: #0c1117;
+  --on-blue: #03130c;
 
-  --success: #57c878;
-  --success-soft: #122d1b;
-  --on-success-soft: #7ed99a;
+  --success: #4fc47a;
+  --success-soft: #0d2c1a;
+  --on-success-soft: #76d99a;
 
   --warning: #e0a544;
-  --warning-soft: #2e2410;
+  --warning-soft: #2c2410;
   --on-warning-soft: #f0c378;
 
-  --danger: #f07171;
+  --danger: #f2716a;
   --danger-soft: #321616;
   --on-danger-soft: #f59c9c;
-  --on-danger: #0c1117;
+  --on-danger: #03130c;
 
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.4);
-  --shadow-pop: 0 8px 30px rgb(0 0 0 / 0.6);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.5);
+  --shadow-pop: 0 16px 50px rgb(0 0 0 / 0.7);
 
   color-scheme: dark;
 }
@@ -103,9 +114,14 @@
 
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
+  --color-brand-deep: var(--brand-deep);
   --color-brand-soft: var(--brand-soft);
   --color-on-brand-soft: var(--on-brand-soft);
   --color-on-brand: var(--on-brand);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-on-accent: var(--on-accent);
 
   --color-blue: var(--blue);
   --color-blue-strong: var(--blue-strong);
@@ -126,9 +142,10 @@
   --color-on-danger-soft: var(--on-danger-soft);
   --color-on-danger: var(--on-danger);
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-anton), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 0.875rem;
+  --radius-card: 1rem;
 
   --shadow-card: var(--shadow-card);
   --shadow-pop: var(--shadow-pop);
@@ -138,7 +155,6 @@
    Basis
 --------------------------------------------------------------------------- */
 :root {
-  /* Easing-Kurven für Transitions/Animationen (natürliche Verzögerung). */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -146,8 +162,28 @@
 body {
   background-color: var(--base);
   color: var(--ink);
-  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Headline-Helfer: Anton für plakative, athletische Headlines. */
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400; /* Anton ist bereits schwer */
+  letter-spacing: 0.005em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+/* Dezente Grain-Textur für Tiefe auf großen Farbflächen. */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Sanfter Übergang beim Theme-Wechsel hell/dunkel. */
@@ -158,7 +194,6 @@ body {
   }
 }
 
-/* Dezentes Einblenden beim Laden (für Elemente ohne framer-motion). */
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -181,7 +216,9 @@ body {
   border-radius: 2px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   text-wrap: balance;
 }
 

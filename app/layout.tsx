@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Anton, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+// Display: Anton – kondensiert, schwer, athletisch (plakative Headlines).
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+// Body/UI: Hanken Grotesk – ruhig, gut lesbar.
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
@@ -23,11 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${jakarta.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang="de"
+      className={`${anton.variable} ${hanken.variable} h-full`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col">
         <ThemeProvider>
           <Header />
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
             {children}
           </main>
           <Footer />

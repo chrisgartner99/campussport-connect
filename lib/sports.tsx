@@ -32,6 +32,23 @@ export function sportIcon(sportart: string): LucideIcon {
   return SPORT_ICONS[sportart] ?? Activity;
 }
 
+/** Farbcodierung je Sportart (Tailwind-Klassen bg/text, AA-konform). */
+const SPORT_TONES = [
+  "bg-brand-soft text-on-brand-soft",
+  "bg-blue-soft text-on-blue-soft",
+  "bg-warning-soft text-on-warning-soft",
+  "bg-success-soft text-on-success-soft",
+  "bg-danger-soft text-on-danger-soft",
+];
+
+export function sportTone(sportart: string): string {
+  let hash = 0;
+  for (let i = 0; i < sportart.length; i++) {
+    hash = (hash + sportart.charCodeAt(i)) % SPORT_TONES.length;
+  }
+  return SPORT_TONES[hash];
+}
+
 /** Icon zu einer Sportart, einheitlich eingebunden. */
 export function SportIcon({
   sportart,

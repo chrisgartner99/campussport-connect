@@ -16,7 +16,7 @@ export default async function MitspielerPage() {
   return (
     <section className="space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Mitspieler</h1>
+        <h1 className="headline text-[clamp(2rem,5vw,3rem)]">Mitspieler</h1>
         <p className="text-muted">
           Finde Studierende mit ähnlichen Interessen und schreib sie an.
         </p>

@@ -54,7 +54,7 @@ export default async function ChatPage({
   return (
     <section className="space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Chat</h1>
+        <h1 className="headline text-[clamp(2rem,5vw,3rem)]">Chat</h1>
         <p className="text-muted">
           Schreibe mit deinen Freunden, um Treffen zu koordinieren.
         </p>

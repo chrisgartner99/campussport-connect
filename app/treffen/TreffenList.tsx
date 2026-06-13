@@ -204,10 +204,14 @@ export default function TreffenList({
         />
       ) : (
         <StaggerGroup className="grid gap-4 sm:grid-cols-2">
-          {gefiltert.map((m) => (
-            <StaggerItem key={m.id} className="h-full">
+          {gefiltert.map((m, i) => (
+            <StaggerItem
+              key={m.id}
+              className={i === 0 ? "h-full sm:col-span-2" : "h-full"}
+            >
               <MeetingCard
                 meeting={m}
+                featured={i === 0}
                 betoneAllein={nurErstie && m.erstie_freundlich}
               />
             </StaggerItem>

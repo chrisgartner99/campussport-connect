@@ -11,7 +11,7 @@ export default function SoGehtsPage() {
   return (
     <section className="mx-auto max-w-3xl space-y-8">
       <div className="space-y-2">
-        <h1 className="text-3xl font-extrabold tracking-tight">
+        <h1 className="headline text-[clamp(2.25rem,6vw,3.5rem)]">
           So funktioniert&apos;s
         </h1>
         <p className="text-muted">

@@ -10,7 +10,7 @@ export default function LoginPage() {
           <LogIn size={22} aria-hidden />
         </span>
         <div className="space-y-1">
-          <h1 className="text-2xl font-extrabold tracking-tight">Willkommen zurück</h1>
+          <h1 className="headline text-[clamp(1.75rem,5vw,2.25rem)]">Willkommen zurück</h1>
           <p className="text-sm text-muted">
             Melde dich an, um Sporttreffen zu finden und mitzumachen.
           </p>

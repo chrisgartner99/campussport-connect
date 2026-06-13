@@ -8,7 +8,7 @@ const STEPS = [
     text: "Sag uns im kurzen Onboarding, was dich interessiert und wie du dich einschätzt.",
   },
   {
-    titel: "Anfängerfreundliches Treffen finden",
+    titel: "Treffen finden",
     text: "Filtere nach Sportart, Ort und Niveau – viele Treffen sind ausdrücklich für Einsteiger.",
   },
   {
@@ -19,19 +19,17 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <ol className="grid gap-4 sm:grid-cols-2">
+    <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {STEPS.map((step, i) => (
         <li
           key={step.titel}
-          className="flex gap-3 rounded-card border border-line bg-surface p-4 shadow-card"
+          className="rounded-card border border-line bg-surface p-5 shadow-card"
         >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-strong text-sm font-bold text-on-brand">
-            {i + 1}
+          <span className="headline block text-4xl text-brand-strong">
+            {String(i + 1).padStart(2, "0")}
           </span>
-          <div className="space-y-1">
-            <h3 className="font-bold">{step.titel}</h3>
-            <p className="text-sm text-muted">{step.text}</p>
-          </div>
+          <h3 className="mt-3 text-lg font-extrabold">{step.titel}</h3>
+          <p className="mt-1 text-sm text-muted">{step.text}</p>
         </li>
       ))}
     </ol>

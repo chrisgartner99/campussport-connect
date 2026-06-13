@@ -23,7 +23,7 @@ export default async function FreundePage() {
   return (
     <section className="space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Freunde</h1>
+        <h1 className="headline text-[clamp(2rem,5vw,3rem)]">Freunde</h1>
         <p className="text-muted">Deine Kontakte aus angenommenen Anfragen.</p>
       </div>
 

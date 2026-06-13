@@ -5,7 +5,7 @@ export default function TreffenNeuPage() {
   return (
     <section className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">
+        <h1 className="headline text-[clamp(1.9rem,5vw,2.75rem)]">
           Neues Sporttreffen
         </h1>
         <p className="text-muted">

@@ -116,7 +116,7 @@ export default async function MeineTreffenPage() {
   return (
     <section className="space-y-10">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Meine Treffen</h1>
+        <h1 className="headline text-[clamp(2rem,5vw,3rem)]">Meine Treffen</h1>
         <p className="text-muted">
           Deine Teilnahmen, eigenen Treffen und Anfragen auf einen Blick.
         </p>

@@ -27,7 +27,7 @@ export default async function OnboardingPage() {
   return (
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-extrabold tracking-tight">
+        <h1 className="headline text-[clamp(1.9rem,5vw,2.75rem)]">
           Schön, dass du da bist{vorname ? `, ${vorname}` : ""}!
         </h1>
         <p className="text-muted">

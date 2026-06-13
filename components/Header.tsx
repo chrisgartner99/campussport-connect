@@ -43,19 +43,19 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-base/85 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <Link href="/" className="flex items-center gap-2.5">
           <span
             aria-hidden
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-strong text-on-brand"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-strong text-on-brand"
           >
-            {/* Stilisierter Aktivitäts-/Puls-Marker als Logo-Platzhalter */}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            {/* Stilisierter Aktivitäts-/Puls-Marker als Logo */}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 12h4l2 6 4-14 2 8h6" />
             </svg>
           </span>
-          <span className="text-lg font-extrabold tracking-tight">
-            CampusSport <span className="text-brand-strong">Connect</span>
+          <span className="headline text-xl leading-none">
+            CampusSport<span className="text-brand-strong">.</span>
           </span>
         </Link>
 

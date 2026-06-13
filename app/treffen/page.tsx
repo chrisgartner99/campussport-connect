@@ -45,7 +45,7 @@ export default async function TreffenPage({
   return (
     <section className="space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Sporttreffen</h1>
+        <h1 className="headline text-[clamp(2rem,5vw,3rem)]">Sporttreffen</h1>
         <p className="text-muted">
           Finde ein Treffen, das zu dir passt, und mach einfach mit.
         </p>

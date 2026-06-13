@@ -70,7 +70,7 @@ export default async function TreffenDetailPage({
             </Badge>
           )}
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight">{meeting.titel}</h1>
+        <h1 className="headline text-[clamp(2.25rem,6vw,3.5rem)]">{meeting.titel}</h1>
       </header>
 
       <Card className="grid gap-4 text-sm sm:grid-cols-3">

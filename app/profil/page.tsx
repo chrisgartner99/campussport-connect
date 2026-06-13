@@ -27,7 +27,7 @@ export default async function ProfilPage() {
   return (
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">Mein Profil</h1>
+        <h1 className="headline text-[clamp(1.9rem,5vw,2.75rem)]">Mein Profil</h1>
         <p className="text-muted">
           Halte deine Angaben aktuell, damit wir dir passende Treffen zeigen.
         </p>

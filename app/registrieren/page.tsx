@@ -10,7 +10,7 @@ export default function RegistrierenPage() {
           <UserPlus size={22} aria-hidden />
         </span>
         <div className="space-y-1">
-          <h1 className="text-2xl font-extrabold tracking-tight">Konto erstellen</h1>
+          <h1 className="headline text-[clamp(1.75rem,5vw,2.25rem)]">Konto erstellen</h1>
           <p className="text-sm text-muted">
             Erstelle ein Konto und finde Mitspieler an deiner Hochschule.
           </p>
