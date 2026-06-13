@@ -8,6 +8,7 @@ import MeetingCard from "@/components/MeetingCard";
 import { SportIcon } from "@/lib/sports";
 import { fieldClasses } from "@/components/ui/Input";
 import EmptyState from "@/components/ui/EmptyState";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 
 type DatumFilter = "egal" | "heute" | "woche";
 
@@ -202,15 +203,16 @@ export default function TreffenList({
           description="Zu diesen Filtern gibt es gerade kein Treffen. Setze ein paar Filter zurück oder schau später noch einmal vorbei."
         />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <StaggerGroup className="grid gap-4 sm:grid-cols-2">
           {gefiltert.map((m) => (
-            <MeetingCard
-              key={m.id}
-              meeting={m}
-              betoneAllein={nurErstie && m.erstie_freundlich}
-            />
+            <StaggerItem key={m.id} className="h-full">
+              <MeetingCard
+                meeting={m}
+                betoneAllein={nurErstie && m.erstie_freundlich}
+              />
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
       )}
     </div>
   );

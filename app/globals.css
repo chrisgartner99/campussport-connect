@@ -137,11 +137,41 @@
 /* ---------------------------------------------------------------------------
    Basis
 --------------------------------------------------------------------------- */
+:root {
+  /* Easing-Kurven für Transitions/Animationen (natürliche Verzögerung). */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 body {
   background-color: var(--base);
   color: var(--ink);
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Sanfter Übergang beim Theme-Wechsel hell/dunkel. */
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 0.3s var(--ease-out-quart),
+      color 0.3s var(--ease-out-quart);
+  }
+}
+
+/* Dezentes Einblenden beim Laden (für Elemente ohne framer-motion). */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.4s var(--ease-out-quart) both;
 }
 
 /* Sichtbarer, markenfarbener Fokus für Tastaturnutzer. */

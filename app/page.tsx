@@ -3,6 +3,8 @@ import HowItWorks from "@/components/HowItWorks";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import { buttonClasses } from "@/components/ui/Button";
+import Reveal from "@/components/motion/Reveal";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 
 const FEATURES = [
   {
@@ -48,77 +50,91 @@ export default function Home() {
               "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--brand) 22%, transparent), transparent 70%), radial-gradient(50% 50% at 85% 30%, color-mix(in oklab, var(--blue) 18%, transparent), transparent 70%)",
           }}
         />
-        <div className="relative mx-auto max-w-2xl space-y-6">
-          <Badge tone="brand">Für Studierende der Hochschule Heilbronn</Badge>
-          <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl">
-            Finde Leute für gemeinsamen Sport — auch wenn du noch niemanden
-            kennst.
-          </h1>
-          <p className="mx-auto max-w-xl text-lg text-muted">
-            Gerade frisch am Campus? CampusSport Connect bringt dich mit anderen
-            Studierenden zusammen – ohne Vorkenntnisse und ohne Freundeskreis vor
-            Ort.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/treffen" className={buttonClasses("primary", "lg")}>
-              Sporttreffen entdecken
-            </Link>
-            <Link href="/so-gehts" className={buttonClasses("ghost", "lg")}>
-              Neu hier? So funktioniert&apos;s
-            </Link>
-          </div>
-        </div>
+        <StaggerGroup className="relative mx-auto max-w-2xl space-y-6">
+          <StaggerItem>
+            <Badge tone="brand">Für Studierende der Hochschule Heilbronn</Badge>
+          </StaggerItem>
+          <StaggerItem>
+            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl">
+              Finde Leute für gemeinsamen Sport — auch wenn du noch niemanden
+              kennst.
+            </h1>
+          </StaggerItem>
+          <StaggerItem>
+            <p className="mx-auto max-w-xl text-lg text-muted">
+              Gerade frisch am Campus? CampusSport Connect bringt dich mit anderen
+              Studierenden zusammen – ohne Vorkenntnisse und ohne Freundeskreis
+              vor Ort.
+            </p>
+          </StaggerItem>
+          <StaggerItem>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/treffen" className={buttonClasses("primary", "lg")}>
+                Sporttreffen entdecken
+              </Link>
+              <Link href="/so-gehts" className={buttonClasses("ghost", "lg")}>
+                Neu hier? So funktioniert&apos;s
+              </Link>
+            </div>
+          </StaggerItem>
+        </StaggerGroup>
       </section>
 
       {/* Feature-Karten */}
-      <section className="grid gap-5 sm:grid-cols-3">
+      <StaggerGroup className="grid gap-5 sm:grid-cols-3">
         {FEATURES.map((feature) => (
-          <Card key={feature.titel} className="space-y-2">
-            <h2 className="text-lg font-bold">{feature.titel}</h2>
-            <p className="text-sm text-muted">{feature.text}</p>
-          </Card>
+          <StaggerItem key={feature.titel}>
+            <Card interactive className="h-full space-y-2">
+              <h2 className="text-lg font-bold">{feature.titel}</h2>
+              <p className="text-sm text-muted">{feature.text}</p>
+            </Card>
+          </StaggerItem>
         ))}
-      </section>
+      </StaggerGroup>
 
       {/* Speziell für Erstsemester */}
-      <section className="overflow-hidden rounded-[1.75rem] border border-brand/30 bg-brand-soft p-8">
-        <div className="max-w-2xl space-y-2">
-          <h2 className="text-2xl font-extrabold tracking-tight text-on-brand-soft">
-            Speziell für Erstsemester
-          </h2>
-          <p className="text-on-brand-soft/90">
-            Der Start an einer neuen Hochschule ist aufregend genug. Sport
-            verbindet – und bei uns ist der Einstieg leicht.
-          </p>
-        </div>
-        <div className="mt-6 grid gap-6 sm:grid-cols-3">
-          {ERSTI_PUNKTE.map((punkt) => (
-            <div key={punkt.titel} className="space-y-1">
-              <h3 className="font-bold text-on-brand-soft">{punkt.titel}</h3>
-              <p className="text-sm text-on-brand-soft/85">{punkt.text}</p>
-            </div>
-          ))}
-        </div>
-        <Link
-          href="/registrieren"
-          className={buttonClasses("primary", "md", "mt-7")}
-        >
-          Jetzt loslegen
-        </Link>
-      </section>
+      <Reveal>
+        <section className="overflow-hidden rounded-[1.75rem] border border-brand/30 bg-brand-soft p-8">
+          <div className="max-w-2xl space-y-2">
+            <h2 className="text-2xl font-extrabold tracking-tight text-on-brand-soft">
+              Speziell für Erstsemester
+            </h2>
+            <p className="text-on-brand-soft/90">
+              Der Start an einer neuen Hochschule ist aufregend genug. Sport
+              verbindet – und bei uns ist der Einstieg leicht.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            {ERSTI_PUNKTE.map((punkt) => (
+              <div key={punkt.titel} className="space-y-1">
+                <h3 className="font-bold text-on-brand-soft">{punkt.titel}</h3>
+                <p className="text-sm text-on-brand-soft/85">{punkt.text}</p>
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/registrieren"
+            className={buttonClasses("primary", "md", "mt-7")}
+          >
+            Jetzt loslegen
+          </Link>
+        </section>
+      </Reveal>
 
       {/* So funktioniert's */}
-      <section id="so-gehts" className="scroll-mt-20 space-y-6">
-        <div className="space-y-1">
-          <h2 className="text-2xl font-extrabold tracking-tight">
-            So funktioniert&apos;s
-          </h2>
-          <p className="text-muted">
-            In vier Schritten vom Konto zum ersten gemeinsamen Training.
-          </p>
-        </div>
-        <HowItWorks />
-      </section>
+      <Reveal>
+        <section id="so-gehts" className="scroll-mt-20 space-y-6">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              So funktioniert&apos;s
+            </h2>
+            <p className="text-muted">
+              In vier Schritten vom Konto zum ersten gemeinsamen Training.
+            </p>
+          </div>
+          <HowItWorks />
+        </section>
+      </Reveal>
     </div>
   );
 }

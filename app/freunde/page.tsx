@@ -41,7 +41,7 @@ export default async function FreundePage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {friends.map((f) => (
-            <Card key={f.id} className="flex flex-col gap-3">
+            <Card key={f.id} interactive className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <Avatar name={f.name} size="md" />
                 <div className="min-w-0">

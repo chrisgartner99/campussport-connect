@@ -19,7 +19,7 @@ export default function MeetingCard({
   const voll = meeting.freie_plaetze === 0;
 
   return (
-    <Card className="flex flex-col gap-3">
+    <Card interactive className="flex h-full flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
         <h2 className="text-lg font-bold leading-tight">{meeting.titel}</h2>
         <Badge tone="neutral" className="shrink-0">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import { motion } from "framer-motion";
 import { Check, UserMinus } from "lucide-react";
 import { joinMeeting, leaveMeeting } from "@/lib/actions/meetings";
 import FormError from "@/components/forms/FormError";
@@ -36,10 +37,15 @@ export default function JoinControls({
   if (isParticipating) {
     return (
       <div className="space-y-3">
-        <p className="inline-flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm font-semibold text-on-success-soft">
+        <motion.p
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+          className="inline-flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm font-semibold text-on-success-soft"
+        >
           <Check size={16} aria-hidden />
           Du bist dabei
-        </p>
+        </motion.p>
         <div>
           <Button
             variant="ghost"

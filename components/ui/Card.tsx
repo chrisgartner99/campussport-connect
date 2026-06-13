@@ -15,7 +15,7 @@ export default function Card({
     <div
       className={`rounded-card border border-line bg-surface p-5 shadow-card ${
         interactive
-          ? "transition-[border-color,box-shadow] hover:border-brand/60 hover:shadow-pop"
+          ? "transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-brand/60 hover:shadow-pop"
           : ""
       } ${className}`.trim()}
       {...rest}

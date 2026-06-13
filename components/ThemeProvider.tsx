@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider as NextThemeProvider } from "next-themes";
+import { MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
@@ -9,9 +10,10 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
       attribute="class"
       defaultTheme="light"
       enableSystem={false}
-      disableTransitionOnChange
     >
-      {children}
+      {/* reducedMotion="user" deaktiviert framer-motion-Animationen für
+          Nutzer mit prefers-reduced-motion. */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </NextThemeProvider>
   );
 }

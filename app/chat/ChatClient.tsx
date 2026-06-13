@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { SendHorizontal, MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { conversationFilter, type Message } from "@/lib/conversation";
@@ -152,8 +153,11 @@ export default function ChatClient({
                 messages.map((m) => {
                   const eigen = m.sender_id === currentUserId;
                   return (
-                    <div
+                    <motion.div
                       key={m.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
                       className={`flex ${eigen ? "justify-end" : "justify-start"}`}
                     >
                       <span
@@ -165,7 +169,7 @@ export default function ChatClient({
                       >
                         {m.inhalt}
                       </span>
-                    </div>
+                    </motion.div>
                   );
                 })
               )}

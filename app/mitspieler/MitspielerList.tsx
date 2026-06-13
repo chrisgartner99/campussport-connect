@@ -101,7 +101,7 @@ export default function MitspielerList({
           {gefiltert.map((p) => {
             const istNeu = !!(p.semester && p.semester <= 2);
             return (
-              <Card key={p.id} className="flex flex-col gap-3">
+              <Card key={p.id} interactive className="flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <Avatar name={p.name} size="md" />
                   <div className="min-w-0">
