@@ -60,6 +60,8 @@ einheitlich das Passwort `Demo1234!`.
 | "So funktioniert's"-Schritte | Unklarheit, wie man als Neuling überhaupt anfängt |
 | Personalisierte Erstie-Begrüßung nach dem Onboarding (Name + Sportarten) | Gefühl, fehl am Platz zu sein und niemanden zu kennen |
 | Erstie-Fokus: anfängerfreundliche Treffen zuerst, "allein"-Hinweis betont | Angst, als Einzige:r ohne Anschluss dazustehen |
+| Mitspieler-Suche mit "auch neu hier"-Filter | Kennt zu wenige Leute / Abhängigkeit vom Freundeskreis |
+| Anfragen an andere Studierende | Soziale Hemmung beim Ansprechen neuer Personen |
 
 ## Projektstruktur
 
