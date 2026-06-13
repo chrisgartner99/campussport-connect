@@ -8,6 +8,7 @@ const PROTECTED_PATHS = [
   "/chat",
   "/treffen/neu",
   "/onboarding",
+  "/profil",
 ];
 
 /** Routen, die eingeloggte Nutzer nicht mehr brauchen. */

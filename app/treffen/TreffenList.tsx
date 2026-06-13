@@ -27,9 +27,11 @@ function isThisWeek(iso: string): boolean {
 export default function TreffenList({
   meetings,
   fokusErstie,
+  greeting,
 }: {
   meetings: MeetingWithStats[];
   fokusErstie: boolean;
+  greeting?: { name: string; sportarten: string };
 }) {
   const [sportart, setSportart] = useState("");
   const [datum, setDatum] = useState<DatumFilter>("egal");
@@ -44,21 +46,34 @@ export default function TreffenList({
     [meetings]
   );
 
-  const gefiltert = useMemo(
-    () =>
-      meetings.filter((m) => {
-        if (sportart && m.sportart !== sportart) return false;
-        if (niveau && m.niveau !== niveau) return false;
-        if (datum === "heute" && !isToday(m.datum)) return false;
-        if (datum === "woche" && !isThisWeek(m.datum)) return false;
-        if (ort.trim() && !m.ort.toLowerCase().includes(ort.trim().toLowerCase()))
-          return false;
-        if (nurFreiePlaetze && m.freie_plaetze < 1) return false;
-        if (nurErstie && !m.erstie_freundlich) return false;
-        return true;
-      }),
-    [meetings, sportart, niveau, datum, ort, nurFreiePlaetze, nurErstie]
-  );
+  const gefiltert = useMemo(() => {
+    const liste = meetings.filter((m) => {
+      if (sportart && m.sportart !== sportart) return false;
+      if (niveau && m.niveau !== niveau) return false;
+      if (datum === "heute" && !isToday(m.datum)) return false;
+      if (datum === "woche" && !isThisWeek(m.datum)) return false;
+      if (ort.trim() && !m.ort.toLowerCase().includes(ort.trim().toLowerCase()))
+        return false;
+      if (nurFreiePlaetze && m.freie_plaetze < 1) return false;
+      if (nurErstie && !m.erstie_freundlich) return false;
+      return true;
+    });
+
+    // Im Erstie-Fokus anfängerfreundliche Treffen zuerst zeigen
+    // (Datums-Reihenfolge innerhalb der Gruppen bleibt erhalten).
+    if (nurErstie) {
+      return liste
+        .map((m, i) => ({ m, i }))
+        .sort((a, b) => {
+          if (a.m.erstie_freundlich !== b.m.erstie_freundlich) {
+            return a.m.erstie_freundlich ? -1 : 1;
+          }
+          return a.i - b.i;
+        })
+        .map((x) => x.m);
+    }
+    return liste;
+  }, [meetings, sportart, niveau, datum, ort, nurFreiePlaetze, nurErstie]);
 
   const selectClass =
     "rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none";
@@ -67,8 +82,18 @@ export default function TreffenList({
     <div className="space-y-6">
       {fokusErstie && (
         <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-          Schön, dass du dabei bist! Hier sind Treffen, bei denen die meisten
-          allein kommen — du musst niemanden mitbringen.
+          {greeting ? (
+            <>
+              Schön, dass du da bist, {greeting.name}! Hier sind
+              anfängerfreundliche {greeting.sportarten}Treffen, bei denen die
+              meisten allein kommen.
+            </>
+          ) : (
+            <>
+              Schön, dass du dabei bist! Hier sind Treffen, bei denen die
+              meisten allein kommen — du musst niemanden mitbringen.
+            </>
+          )}
         </div>
       )}
 
@@ -155,7 +180,11 @@ export default function TreffenList({
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {gefiltert.map((m) => (
-            <MeetingCard key={m.id} meeting={m} />
+            <MeetingCard
+              key={m.id}
+              meeting={m}
+              betoneAllein={nurErstie && m.erstie_freundlich}
+            />
           ))}
         </div>
       )}

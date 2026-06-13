@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { logout } from "@/lib/actions/auth";
 
 /**
@@ -11,12 +12,9 @@ export default function UserMenu({ vorname }: { vorname: string }) {
         {vorname} <span aria-hidden>▾</span>
       </summary>
       <div className="absolute right-0 z-10 mt-2 w-44 rounded-md border border-zinc-200 bg-white py-1 text-sm shadow-md">
-        <span
-          className="block cursor-default px-3 py-1.5 text-zinc-400"
-          title="Folgt in einem späteren Schritt"
-        >
+        <Link href="/profil" className="block px-3 py-1.5 hover:bg-zinc-50">
           Mein Profil
-        </span>
+        </Link>
         <form action={logout}>
           <button
             type="submit"

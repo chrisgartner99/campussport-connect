@@ -7,7 +7,9 @@ Stand: Schritt 1 (Grundgerüst, noch ohne Features und ohne Supabase).
 
 | Route | Zweck |
 | ----- | ----- |
-| `/` | Startseite mit Einstieg in die Plattform |
+| `/` | Landingpage mit Erstsemester-Fokus und "So funktioniert's" |
+| `/so-gehts` | Schritt-für-Schritt-Erklärung für neue Nutzer |
+| `/profil` | Eigenes Profil ansehen und bearbeiten |
 | `/treffen` | Übersicht aller Sporttreffen (Liste/Filter) |
 | `/treffen/[id]` | Detailansicht eines Sporttreffens, Teilnahme |
 | `/treffen/neu` | Formular zum Erstellen eines Sporttreffens |

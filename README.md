@@ -56,6 +56,10 @@ einheitlich das Passwort `Demo1234!`.
 | "X von Y kommen allein" | Soziale Hemmung, Angst nicht dazuzugehören |
 | Verbindliches Beitreten/Absagen | Unverbindliche Verabredungen und spontane Absagen |
 | Filter (Sportart, Datum, Ort, Niveau) | Unklare Infos zu Zeit, Ort, Sportart, Niveau |
+| Startseite mit Abschnitt "Speziell für Erstsemester" | Unsicherheit und Hemmschwelle beim Studienstart |
+| "So funktioniert's"-Schritte | Unklarheit, wie man als Neuling überhaupt anfängt |
+| Personalisierte Erstie-Begrüßung nach dem Onboarding (Name + Sportarten) | Gefühl, fehl am Platz zu sein und niemanden zu kennen |
+| Erstie-Fokus: anfängerfreundliche Treffen zuerst, "allein"-Hinweis betont | Angst, als Einzige:r ohne Anschluss dazustehen |
 
 ## Projektstruktur
 

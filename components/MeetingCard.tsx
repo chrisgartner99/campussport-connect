@@ -2,7 +2,14 @@ import Link from "next/link";
 import type { MeetingWithStats } from "@/lib/meetings";
 import { formatMeetingDate } from "@/lib/format";
 
-export default function MeetingCard({ meeting }: { meeting: MeetingWithStats }) {
+export default function MeetingCard({
+  meeting,
+  betoneAllein = false,
+}: {
+  meeting: MeetingWithStats;
+  /** Hebt die "kommen allein"-Zeile hervor (Erstie-Fokus). */
+  betoneAllein?: boolean;
+}) {
   const belegt = meeting.teilnehmer_count;
   const voll = meeting.freie_plaetze === 0;
 
@@ -51,8 +58,15 @@ export default function MeetingCard({ meeting }: { meeting: MeetingWithStats }) 
       </dl>
 
       {meeting.teilnehmer_count > 0 && (
-        <p className="rounded-md bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
+        <p
+          className={
+            betoneAllein
+              ? "rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm font-semibold text-green-800"
+              : "rounded-md bg-zinc-50 px-3 py-2 text-sm text-zinc-700"
+          }
+        >
           {meeting.allein_count} von {meeting.teilnehmer_count} kommen allein
+          {betoneAllein && " – du musst niemanden mitbringen"}
         </p>
       )}
 

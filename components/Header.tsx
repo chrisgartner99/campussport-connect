@@ -6,6 +6,7 @@ const navItems = [
   { href: "/treffen", label: "Sporttreffen" },
   { href: "/mitspieler", label: "Mitspieler" },
   { href: "/meine-treffen", label: "Meine Treffen" },
+  { href: "/so-gehts", label: "So geht's" },
 ];
 
 export default async function Header() {
