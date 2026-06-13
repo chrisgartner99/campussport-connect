@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
+/* Dark-Mode über die .dark-Klasse (next-themes, attribute="class"). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design-Tokens – Light (Default)
+   Markenfarben: kräftiges Türkis-Grün + Blau. Alle Text/Flächen-Paare
+   erfüllen WCAG AA (Fließtext ≥ 4.5:1).
+--------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --base: #f6fbfc;          /* Seitenhintergrund (kühles Off-White) */
+  --surface: #ffffff;       /* Karten / Panels */
+  --surface-2: #eef5f6;     /* zweite Flächenebene, Toolbars */
+  --line: #d6e0e3;          /* Rahmen */
+  --ink: #1e282f;           /* Haupttext */
+  --muted: #576570;         /* Sekundärtext (5.7:1 auf base) */
+
+  --brand: #00b9a2;         /* Türkis-Grün, vivid – Akzente, Fokus, Fills */
+  --brand-strong: #007a6c;  /* Buttons, Links auf hell (5:1 auf base) */
+  --brand-soft: #d9f4ef;    /* getönte Fläche */
+  --on-brand-soft: #035c52; /* Text auf brand-soft */
+  --on-brand: #ffffff;      /* Text auf gefülltem Brand-Button */
+
+  --blue: #2183d8;          /* Sekundär-Blau */
+  --blue-strong: #105fa6;   /* Sekundär-Buttons (6.6:1 mit weiß) */
+  --blue-soft: #dcecfb;
+  --on-blue-soft: #0d4d86;
+  --on-blue: #ffffff;
+
+  --success: #33854a;
+  --success-soft: #dcf0e1;
+  --on-success-soft: #1f6336;
+
+  --warning: #b9740c;
+  --warning-soft: #fbeccd;
+  --on-warning-soft: #8a560a;
+
+  --danger: #c33939;
+  --danger-soft: #fadede;
+  --on-danger-soft: #97292c;
+  --on-danger: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(16 24 31 / 0.04), 0 4px 16px rgb(16 24 31 / 0.06);
+  --shadow-pop: 0 8px 30px rgb(16 24 31 / 0.14);
+
+  color-scheme: light;
 }
 
+/* ---------------------------------------------------------------------------
+   Design-Tokens – Dark
+--------------------------------------------------------------------------- */
+.dark {
+  --base: #10181f;
+  --surface: #182229;
+  --surface-2: #202c34;
+  --line: #343f47;
+  --ink: #e8f0f3;
+  --muted: #9eaeb4;         /* 7.8:1 auf base */
+
+  --brand: #30ccb1;         /* heller in Dark (8.8:1 auf base) */
+  --brand-strong: #30ccb1;
+  --brand-soft: #103029;
+  --on-brand-soft: #5fe0c8;
+  --on-brand: #0c1117;      /* dunkler Text auf hellem Brand-Button */
+
+  --blue: #67b0f9;
+  --blue-strong: #4a93e6;
+  --blue-soft: #122538;
+  --on-blue-soft: #8cc4fb;
+  --on-blue: #0c1117;
+
+  --success: #57c878;
+  --success-soft: #122d1b;
+  --on-success-soft: #7ed99a;
+
+  --warning: #e0a544;
+  --warning-soft: #2e2410;
+  --on-warning-soft: #f0c378;
+
+  --danger: #f07171;
+  --danger-soft: #321616;
+  --on-danger-soft: #f59c9c;
+  --on-danger: #0c1117;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.4);
+  --shadow-pop: 0 8px 30px rgb(0 0 0 / 0.6);
+
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------------
+   Tailwind-Theme: Tokens als Utilities verfügbar machen
+   (bg-base, bg-surface, text-ink, text-muted, border-line, bg-brand, …)
+--------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand-soft: var(--on-brand-soft);
+  --color-on-brand: var(--on-brand);
+
+  --color-blue: var(--blue);
+  --color-blue-strong: var(--blue-strong);
+  --color-blue-soft: var(--blue-soft);
+  --color-on-blue-soft: var(--on-blue-soft);
+  --color-on-blue: var(--on-blue);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-on-success-soft: var(--on-success-soft);
+
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-on-warning-soft: var(--on-warning-soft);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-on-danger-soft: var(--on-danger-soft);
+  --color-on-danger: var(--on-danger);
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.875rem;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ---------------------------------------------------------------------------
+   Basis
+--------------------------------------------------------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--base);
+  color: var(--ink);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sichtbarer, markenfarbener Fokus für Tastaturnutzer. */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

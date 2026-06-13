@@ -1,8 +1,18 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-200 bg-white">
-      <div className="mx-auto max-w-5xl px-4 py-4 text-sm text-zinc-500">
-        CampusSport Connect – Prototyp, Hochschule Heilbronn
+    <footer className="border-t border-line bg-surface">
+      <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <p>CampusSport Connect · Prototyp, Hochschule Heilbronn</p>
+        <nav className="flex gap-4">
+          <Link href="/so-gehts" className="hover:text-ink">
+            So geht&apos;s
+          </Link>
+          <Link href="/treffen" className="hover:text-ink">
+            Sporttreffen
+          </Link>
+        </nav>
       </div>
     </footer>
   );

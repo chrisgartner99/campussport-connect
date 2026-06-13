@@ -23,14 +23,14 @@ export default function HowItWorks() {
       {STEPS.map((step, i) => (
         <li
           key={step.titel}
-          className="flex gap-3 rounded-lg border border-zinc-200 bg-white p-4"
+          className="flex gap-3 rounded-card border border-line bg-surface p-4 shadow-card"
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-strong text-sm font-bold text-on-brand">
             {i + 1}
           </span>
           <div className="space-y-1">
-            <h3 className="font-semibold">{step.titel}</h3>
-            <p className="text-sm text-zinc-600">{step.text}</p>
+            <h3 className="font-bold">{step.titel}</h3>
+            <p className="text-sm text-muted">{step.text}</p>
           </div>
         </li>
       ))}
