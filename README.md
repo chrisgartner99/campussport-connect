@@ -52,9 +52,10 @@ einheitlich das Passwort `Demo1234!`.
 | Feature | Pain Point aus Nutzerinterviews |
 | ------- | ------------------------------- |
 | Onboarding mit Semesterabfrage | Fehlende Kontakte und Unsicherheit bei Erstsemestern |
-|         |                                 |
-|         |                                 |
-|         |                                 |
+| "Was erwartet dich"-Abschnitt | Unklare Infos zu Ablauf und Niveau |
+| "X von Y kommen allein" | Soziale Hemmung, Angst nicht dazuzugehören |
+| Verbindliches Beitreten/Absagen | Unverbindliche Verabredungen und spontane Absagen |
+| Filter (Sportart, Datum, Ort, Niveau) | Unklare Infos zu Zeit, Ort, Sportart, Niveau |
 
 ## Projektstruktur
 
