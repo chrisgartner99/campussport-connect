@@ -230,3 +230,19 @@ create index if not exists messages_pair_idx
     (greatest(sender_id, empfaenger_id)),
     created_at
   );
+
+-- ---------------------------------------------------------------------------
+-- Realtime
+-- ---------------------------------------------------------------------------
+
+-- messages für den Live-Chat zur Realtime-Publication hinzufügen.
+-- Idempotent: nur, wenn die Tabelle noch nicht enthalten ist.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'messages'
+  ) then
+    alter publication supabase_realtime add table public.messages;
+  end if;
+end $$;

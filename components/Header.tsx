@@ -2,11 +2,17 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import UserMenu from "@/components/UserMenu";
 
-const navItems = [
+const publicNav = [
   { href: "/treffen", label: "Sporttreffen" },
   { href: "/mitspieler", label: "Mitspieler" },
   { href: "/meine-treffen", label: "Meine Treffen" },
   { href: "/so-gehts", label: "So geht's" },
+];
+
+// Zusätzliche Einträge nur für eingeloggte Nutzer.
+const authNav = [
+  { href: "/freunde", label: "Freunde" },
+  { href: "/chat", label: "Chat" },
 ];
 
 export default async function Header() {
@@ -37,7 +43,7 @@ export default async function Header() {
           CampusSport Connect
         </Link>
         <nav className="flex items-center gap-6 text-sm">
-          {navItems.map((item) => (
+          {[...publicNav, ...(vorname ? authNav : [])].map((item) => (
             <Link
               key={item.href}
               href={item.href}

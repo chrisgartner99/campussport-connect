@@ -62,6 +62,7 @@ einheitlich das Passwort `Demo1234!`.
 | Erstie-Fokus: anfängerfreundliche Treffen zuerst, "allein"-Hinweis betont | Angst, als Einzige:r ohne Anschluss dazustehen |
 | Mitspieler-Suche mit "auch neu hier"-Filter | Kennt zu wenige Leute / Abhängigkeit vom Freundeskreis |
 | Anfragen an andere Studierende | Soziale Hemmung beim Ansprechen neuer Personen |
+| Freundesliste + 1:1-Chat | Soziale Vernetzung über Sport, Kontakte halten und koordinieren |
 
 ## Projektstruktur
 
