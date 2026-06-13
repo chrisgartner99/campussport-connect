@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { CalendarDays, MapPin, Users, Sparkles, TrendingUp } from "lucide-react";
 import type { MeetingWithStats } from "@/lib/meetings";
 import { formatMeetingDate } from "@/lib/format";
+import { SportIcon } from "@/lib/sports";
+import Card from "@/components/ui/Card";
+import Badge from "@/components/ui/Badge";
+import { buttonClasses } from "@/components/ui/Button";
 
 export default function MeetingCard({
   meeting,
@@ -14,45 +19,47 @@ export default function MeetingCard({
   const voll = meeting.freie_plaetze === 0;
 
   return (
-    <article className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
+    <Card className="flex flex-col gap-3">
       <div className="flex items-start justify-between gap-2">
-        <h2 className="text-lg font-semibold leading-tight">{meeting.titel}</h2>
-        <span className="shrink-0 rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+        <h2 className="text-lg font-bold leading-tight">{meeting.titel}</h2>
+        <Badge tone="neutral" className="shrink-0">
+          <SportIcon sportart={meeting.sportart} size={13} />
           {meeting.sportart}
-        </span>
+        </Badge>
       </div>
 
       <div className="flex flex-wrap gap-2">
         {meeting.erstie_freundlich && (
-          <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">
+          <Badge tone="success">
+            <Sparkles size={13} />
             Anfängerfreundlich
-          </span>
+          </Badge>
         )}
         {meeting.niveau && (
-          <span className="rounded-full border border-zinc-200 px-2.5 py-1 text-xs text-zinc-600">
-            Niveau: {meeting.niveau}
-          </span>
+          <Badge tone="neutral">
+            <TrendingUp size={13} />
+            {meeting.niveau}
+          </Badge>
         )}
       </div>
 
-      <dl className="space-y-1 text-sm text-zinc-600">
-        <div className="flex gap-2">
-          <dt className="text-zinc-400">Wann:</dt>
+      <dl className="space-y-1.5 text-sm text-muted">
+        <div className="flex items-center gap-2">
+          <CalendarDays size={15} className="shrink-0 text-brand-strong" aria-hidden />
+          <dt className="sr-only">Wann</dt>
           <dd>{formatMeetingDate(meeting.datum)}</dd>
         </div>
-        <div className="flex gap-2">
-          <dt className="text-zinc-400">Wo:</dt>
+        <div className="flex items-center gap-2">
+          <MapPin size={15} className="shrink-0 text-brand-strong" aria-hidden />
+          <dt className="sr-only">Wo</dt>
           <dd>{meeting.ort}</dd>
         </div>
-        <div className="flex gap-2">
-          <dt className="text-zinc-400">Plätze:</dt>
+        <div className="flex items-center gap-2">
+          <Users size={15} className="shrink-0 text-brand-strong" aria-hidden />
+          <dt className="sr-only">Plätze</dt>
           <dd>
             {belegt} von {meeting.max_plaetze} Plätzen belegt
-            {voll && (
-              <span className="ml-1 font-medium text-red-600">
-                (ausgebucht)
-              </span>
-            )}
+            {voll && <span className="ml-1 font-semibold text-danger">(ausgebucht)</span>}
           </dd>
         </div>
       </dl>
@@ -61,8 +68,8 @@ export default function MeetingCard({
         <p
           className={
             betoneAllein
-              ? "rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm font-semibold text-green-800"
-              : "rounded-md bg-zinc-50 px-3 py-2 text-sm text-zinc-700"
+              ? "rounded-lg bg-brand-soft px-3 py-2 text-sm font-semibold text-on-brand-soft"
+              : "rounded-lg bg-surface-2 px-3 py-2 text-sm text-ink"
           }
         >
           {meeting.allein_count} von {meeting.teilnehmer_count} kommen allein
@@ -71,24 +78,21 @@ export default function MeetingCard({
       )}
 
       <div className="mt-auto flex gap-2 pt-1">
-        <Link
-          href={`/treffen/${meeting.id}`}
-          className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-center text-sm font-medium hover:border-zinc-500"
-        >
+        <Link href={`/treffen/${meeting.id}`} className={buttonClasses("ghost", "sm", "flex-1")}>
           Details ansehen
         </Link>
         <Link
           href={`/treffen/${meeting.id}`}
           aria-disabled={voll}
-          className={`flex-1 rounded-md px-3 py-2 text-center text-sm font-medium text-white ${
+          className={
             voll
-              ? "pointer-events-none bg-zinc-300"
-              : "bg-zinc-900 hover:bg-zinc-700"
-          }`}
+              ? "pointer-events-none flex-1 rounded-lg bg-surface-2 px-3 py-2 text-center text-sm font-semibold text-muted"
+              : buttonClasses("primary", "sm", "flex-1")
+          }
         >
           {voll ? "Ausgebucht" : "Beitreten"}
         </Link>
       </div>
-    </article>
+    </Card>
   );
 }

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import Card from "@/components/ui/Card";
 import ProfilForm from "./ProfilForm";
 
 export default async function ProfilPage() {
@@ -26,20 +27,22 @@ export default async function ProfilPage() {
   return (
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">Mein Profil</h1>
-        <p className="text-zinc-600">
+        <h1 className="text-2xl font-extrabold tracking-tight">Mein Profil</h1>
+        <p className="text-muted">
           Halte deine Angaben aktuell, damit wir dir passende Treffen zeigen.
         </p>
       </div>
-      <ProfilForm
-        initial={{
-          name: profile.name ?? "",
-          studiengang: profile.studiengang ?? "",
-          semester: profile.semester ?? null,
-          sportarten: profile.sportarten ?? [],
-          niveau: profile.niveau ?? "",
-        }}
-      />
+      <Card>
+        <ProfilForm
+          initial={{
+            name: profile.name ?? "",
+            studiengang: profile.studiengang ?? "",
+            semester: profile.semester ?? null,
+            sportarten: profile.sportarten ?? [],
+            niveau: profile.niveau ?? "",
+          }}
+        />
+      </Card>
     </section>
   );
 }

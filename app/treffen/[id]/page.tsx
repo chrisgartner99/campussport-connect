@@ -1,8 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  ArrowLeft,
+  CalendarDays,
+  MapPin,
+  Users,
+  TrendingUp,
+  Sparkles,
+  ClipboardList,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getMeetingDetail } from "@/lib/meetings";
 import { formatMeetingDate } from "@/lib/format";
+import { SportIcon } from "@/lib/sports";
+import Badge from "@/components/ui/Badge";
+import Card from "@/components/ui/Card";
+import Avatar from "@/components/ui/Avatar";
 import JoinControls from "./JoinControls";
 
 export default async function TreffenDetailPage({
@@ -30,95 +43,105 @@ export default async function TreffenDetailPage({
 
   return (
     <section className="mx-auto max-w-2xl space-y-6">
-      <Link href="/treffen" className="text-sm text-zinc-500 hover:text-zinc-800">
-        ← Zurück zur Übersicht
+      <Link
+        href="/treffen"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-ink"
+      >
+        <ArrowLeft size={16} aria-hidden />
+        Zurück zur Übersicht
       </Link>
 
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+          <Badge tone="brand">
+            <SportIcon sportart={meeting.sportart} size={13} />
             {meeting.sportart}
-          </span>
+          </Badge>
           {meeting.erstie_freundlich && (
-            <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-800">
+            <Badge tone="success">
+              <Sparkles size={13} />
               Anfängerfreundlich
-            </span>
+            </Badge>
           )}
           {meeting.niveau && (
-            <span className="rounded-full border border-zinc-200 px-2.5 py-1 text-xs text-zinc-600">
-              Niveau: {meeting.niveau}
-            </span>
+            <Badge tone="neutral">
+              <TrendingUp size={13} />
+              {meeting.niveau}
+            </Badge>
           )}
         </div>
-        <h1 className="text-3xl font-semibold tracking-tight">
-          {meeting.titel}
-        </h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">{meeting.titel}</h1>
       </header>
 
-      <dl className="grid gap-3 rounded-lg border border-zinc-200 bg-white p-4 text-sm sm:grid-cols-2">
-        <div>
-          <dt className="text-zinc-400">Wann</dt>
-          <dd className="font-medium">{formatMeetingDate(meeting.datum)}</dd>
+      <Card className="grid gap-4 text-sm sm:grid-cols-3">
+        <div className="flex items-start gap-2">
+          <CalendarDays size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+          <div>
+            <dt className="text-muted">Wann</dt>
+            <dd className="font-semibold">{formatMeetingDate(meeting.datum)}</dd>
+          </div>
         </div>
-        <div>
-          <dt className="text-zinc-400">Wo</dt>
-          <dd className="font-medium">{meeting.ort}</dd>
+        <div className="flex items-start gap-2">
+          <MapPin size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+          <div>
+            <dt className="text-muted">Wo</dt>
+            <dd className="font-semibold">{meeting.ort}</dd>
+          </div>
         </div>
-        <div>
-          <dt className="text-zinc-400">Plätze</dt>
-          <dd className="font-medium">
-            {participants.length} von {meeting.max_plaetze} belegt
-          </dd>
+        <div className="flex items-start gap-2">
+          <Users size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+          <div>
+            <dt className="text-muted">Plätze</dt>
+            <dd className="font-semibold">
+              {participants.length} von {meeting.max_plaetze} belegt
+            </dd>
+          </div>
         </div>
-      </dl>
+      </Card>
 
       {meeting.beschreibung && (
-        <p className="text-zinc-700">{meeting.beschreibung}</p>
+        <p className="text-ink/90">{meeting.beschreibung}</p>
       )}
 
       {meeting.ablauf && (
-        <section className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-          <h2 className="mb-2 text-lg font-semibold">Was erwartet dich</h2>
-          <p className="whitespace-pre-line text-zinc-700">{meeting.ablauf}</p>
+        <section className="rounded-card border border-brand/25 bg-brand-soft p-5">
+          <h2 className="mb-2 flex items-center gap-2 text-lg font-bold text-on-brand-soft">
+            <ClipboardList size={18} aria-hidden />
+            Was erwartet dich
+          </h2>
+          <p className="whitespace-pre-line text-on-brand-soft/90">{meeting.ablauf}</p>
         </section>
       )}
 
       <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">
-            Teilnehmer ({participants.length})
-          </h2>
-        </div>
+        <h2 className="text-lg font-bold">Teilnehmer ({participants.length})</h2>
         {participants.length > 0 && (
-          <p className="rounded-md bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-800">
+          <p className="inline-flex items-center gap-2 rounded-lg bg-surface-2 px-3 py-2 text-sm font-semibold text-ink">
+            <Users size={15} className="text-brand-strong" aria-hidden />
             {allein_count} von {participants.length} Teilnehmern kommen allein
           </p>
         )}
         {participants.length === 0 ? (
-          <p className="text-sm text-zinc-500">
-            Noch niemand dabei — sei die erste Person!
-          </p>
+          <p className="text-sm text-muted">Noch niemand dabei – sei die erste Person!</p>
         ) : (
-          <ul className="divide-y divide-zinc-100 rounded-lg border border-zinc-200 bg-white">
+          <ul className="divide-y divide-line rounded-card border border-line bg-surface">
             {participants.map((p) => (
-              <li
-                key={p.user_id}
-                className="flex items-center justify-between px-4 py-2.5 text-sm"
-              >
-                <span className="font-medium">{p.name}</span>
-                <span className="text-zinc-500">
-                  {p.semester ? `${p.semester}. Semester` : "—"}
-                  {p.kommt_allein && (
-                    <span className="ml-2 text-zinc-400">· kommt allein</span>
-                  )}
-                </span>
+              <li key={p.user_id} className="flex items-center gap-3 px-4 py-3">
+                <Avatar name={p.name} size="sm" />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-ink">{p.name}</p>
+                  <p className="text-xs text-muted">
+                    {p.semester ? `${p.semester}. Semester` : "—"}
+                    {p.kommt_allein && " · kommt allein"}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <div className="border-t border-zinc-200 pt-5">
+      <div className="border-t border-line pt-5">
         <JoinControls
           meetingId={meeting.id}
           isLoggedIn={!!user}

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { SendHorizontal, MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { conversationFilter, type Message } from "@/lib/conversation";
+import Avatar from "@/components/ui/Avatar";
 
 type Friend = { id: string; name: string; preview: string | null };
 
@@ -18,9 +20,7 @@ export default function ChatClient({
   initialMessages: Message[];
 }) {
   const supabase = useMemo(() => createClient(), []);
-  const [selectedId, setSelectedId] = useState<string | null>(
-    initialSelectedId
-  );
+  const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -28,7 +28,6 @@ export default function ChatClient({
 
   const selectedFriend = friends.find((f) => f.id === selectedId) ?? null;
 
-  // Verlauf laden, wenn eine andere Person ausgewählt wird.
   useEffect(() => {
     if (!selectedId) return;
     let aktiv = true;
@@ -45,7 +44,6 @@ export default function ChatClient({
     };
   }, [selectedId, currentUserId, supabase]);
 
-  // Realtime: eingehende Nachrichten an mich live anhängen.
   useEffect(() => {
     const channel = supabase
       .channel(`messages-${currentUserId}`)
@@ -59,7 +57,6 @@ export default function ChatClient({
         },
         (payload) => {
           const msg = payload.new as Message;
-          // Nur anhängen, wenn sie zur offenen Konversation gehört.
           if (msg.sender_id === selectedId) {
             setMessages((prev) =>
               prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
@@ -74,7 +71,6 @@ export default function ChatClient({
     };
   }, [supabase, currentUserId, selectedId]);
 
-  // Ans Ende scrollen, wenn neue Nachrichten ankommen.
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -85,11 +81,7 @@ export default function ChatClient({
     setSending(true);
     const { data, error } = await supabase
       .from("messages")
-      .insert({
-        sender_id: currentUserId,
-        empfaenger_id: selectedId,
-        inhalt,
-      })
+      .insert({ sender_id: currentUserId, empfaenger_id: selectedId, inhalt })
       .select("id, sender_id, empfaenger_id, inhalt, created_at")
       .single();
     setSending(false);
@@ -102,20 +94,23 @@ export default function ChatClient({
   return (
     <div className="grid h-[70vh] grid-cols-1 gap-4 sm:grid-cols-[260px_1fr]">
       {/* Konversationsliste */}
-      <aside className="overflow-y-auto rounded-lg border border-zinc-200 bg-white">
-        <ul className="divide-y divide-zinc-100">
+      <aside className="hidden overflow-y-auto rounded-card border border-line bg-surface shadow-card sm:block">
+        <ul className="divide-y divide-line">
           {friends.map((f) => (
             <li key={f.id}>
               <button
                 type="button"
                 onClick={() => setSelectedId(f.id)}
-                className={`w-full px-4 py-3 text-left hover:bg-zinc-50 ${
-                  f.id === selectedId ? "bg-zinc-100" : ""
+                className={`flex w-full items-center gap-3 px-3 py-3 text-left transition-colors ${
+                  f.id === selectedId ? "bg-brand-soft" : "hover:bg-surface-2"
                 }`}
               >
-                <span className="block font-medium">{f.name}</span>
-                <span className="block truncate text-sm text-zinc-500">
-                  {f.preview ?? "Noch keine Nachrichten"}
+                <Avatar name={f.name} size="sm" />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-semibold text-ink">{f.name}</span>
+                  <span className="block truncate text-sm text-muted">
+                    {f.preview ?? "Noch keine Nachrichten"}
+                  </span>
                 </span>
               </button>
             </li>
@@ -123,16 +118,34 @@ export default function ChatClient({
         </ul>
       </aside>
 
+      {/* Mobile: kompakte Personenwahl */}
+      <div className="sm:hidden">
+        <label className="sr-only" htmlFor="chat-person">Person wählen</label>
+        <select
+          id="chat-person"
+          value={selectedId ?? ""}
+          onChange={(e) => setSelectedId(e.target.value)}
+          className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink"
+        >
+          {friends.map((f) => (
+            <option key={f.id} value={f.id}>
+              {f.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       {/* Nachrichtenverlauf */}
-      <div className="flex flex-col rounded-lg border border-zinc-200 bg-white">
+      <div className="flex flex-col overflow-hidden rounded-card border border-line bg-surface shadow-card">
         {selectedFriend ? (
           <>
-            <div className="border-b border-zinc-200 px-4 py-3 font-medium">
-              {selectedFriend.name}
+            <div className="flex items-center gap-2 border-b border-line px-4 py-3">
+              <Avatar name={selectedFriend.name} size="sm" />
+              <span className="font-semibold text-ink">{selectedFriend.name}</span>
             </div>
-            <div className="flex-1 space-y-2 overflow-y-auto p-4">
+            <div className="flex-1 space-y-2 overflow-y-auto bg-base/40 p-4">
               {messages.length === 0 ? (
-                <p className="text-center text-sm text-zinc-400">
+                <p className="pt-8 text-center text-sm text-muted">
                   Schreib die erste Nachricht.
                 </p>
               ) : (
@@ -144,10 +157,10 @@ export default function ChatClient({
                       className={`flex ${eigen ? "justify-end" : "justify-start"}`}
                     >
                       <span
-                        className={`max-w-[75%] whitespace-pre-wrap break-words rounded-2xl px-3 py-2 text-sm ${
+                        className={`max-w-[75%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm ${
                           eigen
-                            ? "bg-zinc-900 text-white"
-                            : "bg-zinc-100 text-zinc-900"
+                            ? "rounded-br-sm bg-brand-strong text-on-brand"
+                            : "rounded-bl-sm bg-surface-2 text-ink"
                         }`}
                       >
                         {m.inhalt}
@@ -163,27 +176,29 @@ export default function ChatClient({
                 e.preventDefault();
                 send();
               }}
-              className="flex gap-2 border-t border-zinc-200 p-3"
+              className="flex gap-2 border-t border-line p-3"
             >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Nachricht schreiben …"
-                className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+                className="flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:border-brand focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={sending || !input.trim()}
-                className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-60"
+                aria-label="Nachricht senden"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-strong text-on-brand transition-colors hover:opacity-90 disabled:opacity-55"
               >
-                Senden
+                <SendHorizontal size={18} aria-hidden />
               </button>
             </form>
           </>
         ) : (
-          <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-zinc-500">
-            Wähle links eine Person aus, um zu chatten.
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-muted">
+            <MessageSquare size={28} aria-hidden />
+            <p className="text-sm">Wähle links eine Person aus, um zu chatten.</p>
           </div>
         )}
       </div>

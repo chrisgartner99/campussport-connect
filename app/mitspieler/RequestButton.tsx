@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Check, UserPlus, SendHorizontal } from "lucide-react";
 import { sendRequest } from "@/lib/actions/requests";
 import FormError from "@/components/forms/FormError";
+import Button, { buttonClasses } from "@/components/ui/Button";
+import { fieldClasses } from "@/components/ui/Input";
 
 export default function RequestButton({
   empfaengerId,
@@ -21,7 +24,8 @@ export default function RequestButton({
 
   if (gesendet) {
     return (
-      <p className="rounded-md bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-600">
+      <p className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-success-soft px-3 py-2 text-sm font-semibold text-on-success-soft">
+        <Check size={15} aria-hidden />
         Anfrage gesendet
       </p>
     );
@@ -32,8 +36,9 @@ export default function RequestButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full rounded-md bg-zinc-900 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-700"
+        className={buttonClasses("primary", "sm", "w-full")}
       >
+        <UserPlus size={15} aria-hidden />
         Anfragen
       </button>
     );
@@ -56,22 +61,18 @@ export default function RequestButton({
         onChange={(e) => setNachricht(e.target.value)}
         rows={2}
         placeholder={`Kurze Nachricht an ${name} …`}
-        className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+        className={fieldClasses}
       />
       <div className="flex gap-2">
-        <button
-          type="button"
-          disabled={pending}
-          onClick={submit}
-          className="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-60"
-        >
-          {pending ? "Wird gesendet …" : "Senden"}
-        </button>
+        <Button variant="primary" size="sm" loading={pending} onClick={submit}>
+          <SendHorizontal size={15} aria-hidden />
+          Senden
+        </Button>
         <button
           type="button"
           disabled={pending}
           onClick={() => setOpen(false)}
-          className="px-2 py-1.5 text-sm text-zinc-500 hover:text-zinc-800"
+          className="px-2 py-1.5 text-sm text-muted hover:text-ink"
         >
           Abbrechen
         </button>

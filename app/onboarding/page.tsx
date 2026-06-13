@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import Card from "@/components/ui/Card";
 import OnboardingForm from "./OnboardingForm";
 
 export default async function OnboardingPage() {
@@ -26,15 +27,17 @@ export default async function OnboardingPage() {
   return (
     <section className="mx-auto max-w-lg space-y-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="text-2xl font-extrabold tracking-tight">
           Schön, dass du da bist{vorname ? `, ${vorname}` : ""}!
         </h1>
-        <p className="text-zinc-600">
+        <p className="text-muted">
           Erzähl uns kurz etwas über dich, damit wir dir passende
           Sporttreffen zeigen können.
         </p>
       </div>
-      <OnboardingForm initial={profile} />
+      <Card>
+        <OnboardingForm initial={profile} />
+      </Card>
     </section>
   );
 }

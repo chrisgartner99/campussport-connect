@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { MessagesSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getFriends } from "@/lib/friends";
 import { getConversation } from "@/lib/messages";
+import EmptyState from "@/components/ui/EmptyState";
+import { buttonClasses } from "@/components/ui/Button";
 import ChatClient from "./ChatClient";
 
 export default async function ChatPage({
@@ -51,25 +54,23 @@ export default async function ChatPage({
   return (
     <section className="space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">Chat</h1>
-        <p className="text-zinc-600">
+        <h1 className="text-2xl font-extrabold tracking-tight">Chat</h1>
+        <p className="text-muted">
           Schreibe mit deinen Freunden, um Treffen zu koordinieren.
         </p>
       </div>
 
       {friendList.length === 0 ? (
-        <div className="space-y-4 rounded-lg border border-dashed border-zinc-300 px-6 py-10 text-center">
-          <p className="text-zinc-600">
-            Du kannst nur mit bestätigten Freunden chatten. Füge zuerst jemanden
-            hinzu.
-          </p>
-          <Link
-            href="/mitspieler"
-            className="inline-block rounded-md bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-zinc-700"
-          >
-            Mitspieler finden
-          </Link>
-        </div>
+        <EmptyState
+          icon={MessagesSquare}
+          title="Noch keine Chats"
+          description="Du kannst nur mit bestätigten Freunden chatten. Füge zuerst jemanden hinzu."
+          action={
+            <Link href="/mitspieler" className={buttonClasses("primary", "md")}>
+              Mitspieler finden
+            </Link>
+          }
+        />
       ) : (
         <ChatClient
           currentUserId={user.id}

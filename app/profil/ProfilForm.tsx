@@ -3,9 +3,12 @@
 import { useActionState, useState } from "react";
 import { updateProfile, type ProfileUpdateState } from "@/lib/actions/profile";
 import { NIVEAUS, SPORTARTEN } from "@/lib/constants";
+import { SportIcon } from "@/lib/sports";
 import FormInput from "@/components/forms/FormInput";
 import FormError from "@/components/forms/FormError";
 import SubmitButton from "@/components/forms/SubmitButton";
+import Chip from "@/components/ui/Chip";
+import { CircleCheckBig } from "lucide-react";
 
 const SEMESTER_OPTIONEN = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
 
@@ -58,57 +61,51 @@ export default function ProfilForm({ initial }: { initial: ProfilWerte }) {
       />
 
       <fieldset className="space-y-2">
-        <legend className="text-sm font-medium">Semester</legend>
+        <legend className="text-sm font-semibold text-ink">Semester</legend>
         <div className="flex flex-wrap gap-2">
           {SEMESTER_OPTIONEN.map((option) => (
-            <button
+            <Chip
               key={option}
-              type="button"
+              selected={semester === option}
               onClick={() => setSemester(option)}
-              className={`rounded-md border px-3 py-1.5 text-sm ${
-                semester === option
-                  ? "border-zinc-900 bg-zinc-900 text-white"
-                  : "border-zinc-300 bg-white hover:border-zinc-500"
-              }`}
+              className="px-3"
             >
               {option}
-            </button>
+            </Chip>
           ))}
         </div>
       </fieldset>
 
       <fieldset className="space-y-2">
-        <legend className="text-sm font-medium">Sportarten</legend>
+        <legend className="text-sm font-semibold text-ink">Sportarten</legend>
         <div className="flex flex-wrap gap-2">
           {SPORTARTEN.map((sportart) => (
-            <button
+            <Chip
               key={sportart}
-              type="button"
+              selected={sportarten.includes(sportart)}
               onClick={() => toggleSportart(sportart)}
-              className={`rounded-full border px-4 py-1.5 text-sm ${
-                sportarten.includes(sportart)
-                  ? "border-zinc-900 bg-zinc-900 text-white"
-                  : "border-zinc-300 bg-white hover:border-zinc-500"
-              }`}
+              className="inline-flex items-center gap-1.5"
             >
+              <SportIcon sportart={sportart} size={14} />
               {sportart}
-            </button>
+            </Chip>
           ))}
         </div>
       </fieldset>
 
       <fieldset className="space-y-2">
-        <legend className="text-sm font-medium">Niveau</legend>
+        <legend className="text-sm font-semibold text-ink">Niveau</legend>
         <div className="grid gap-2 sm:grid-cols-3">
           {NIVEAUS.map((option) => (
             <button
               key={option}
               type="button"
               onClick={() => setNiveau(option)}
-              className={`rounded-md border px-4 py-3 text-sm ${
+              aria-pressed={niveau === option}
+              className={`rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${
                 niveau === option
-                  ? "border-zinc-900 bg-zinc-900 text-white"
-                  : "border-zinc-300 bg-white hover:border-zinc-500"
+                  ? "border-brand-strong bg-brand-strong text-on-brand"
+                  : "border-line bg-surface text-ink hover:border-brand"
               }`}
             >
               {option}
@@ -127,8 +124,9 @@ export default function ProfilForm({ initial }: { initial: ProfilWerte }) {
       {state?.status === "success" && (
         <p
           role="status"
-          className="rounded-md bg-green-50 px-3 py-2 text-sm text-green-700"
+          className="flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm font-medium text-on-success-soft"
         >
+          <CircleCheckBig size={16} aria-hidden />
           Profil gespeichert.
         </p>
       )}

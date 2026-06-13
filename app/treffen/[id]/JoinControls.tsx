@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
+import { Check, UserMinus } from "lucide-react";
 import { joinMeeting, leaveMeeting } from "@/lib/actions/meetings";
 import FormError from "@/components/forms/FormError";
+import Button, { buttonClasses } from "@/components/ui/Button";
 
 type Props = {
   meetingId: string;
@@ -25,10 +27,7 @@ export default function JoinControls({
   // Nicht eingeloggt: Beitreten leitet zum Login.
   if (!isLoggedIn) {
     return (
-      <Link
-        href="/login"
-        className="inline-block rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700"
-      >
+      <Link href="/login" className={buttonClasses("primary", "md")}>
         Beitreten
       </Link>
     );
@@ -37,23 +36,24 @@ export default function JoinControls({
   if (isParticipating) {
     return (
       <div className="space-y-3">
-        <p className="inline-flex items-center gap-2 rounded-md bg-green-100 px-3 py-2 text-sm font-medium text-green-800">
-          ✓ Du bist dabei
+        <p className="inline-flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm font-semibold text-on-success-soft">
+          <Check size={16} aria-hidden />
+          Du bist dabei
         </p>
         <div>
-          <button
-            type="button"
-            disabled={pending}
+          <Button
+            variant="ghost"
+            loading={pending}
             onClick={() =>
               startTransition(async () => {
                 const result = await leaveMeeting(meetingId);
                 setError(result?.error);
               })
             }
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:border-zinc-500 disabled:opacity-60"
           >
-            {pending ? "Wird abgesagt …" : "Absagen"}
-          </button>
+            <UserMinus size={16} aria-hidden />
+            Absagen
+          </Button>
         </div>
         <FormError message={error} />
       </div>
@@ -65,7 +65,7 @@ export default function JoinControls({
       <button
         type="button"
         disabled
-        className="cursor-not-allowed rounded-md bg-zinc-300 px-4 py-2 text-sm font-medium text-white"
+        className="cursor-not-allowed rounded-lg bg-surface-2 px-5 py-2.5 text-sm font-semibold text-muted"
       >
         Treffen ist ausgebucht
       </button>
@@ -81,41 +81,29 @@ export default function JoinControls({
 
   if (!showChoice) {
     return (
-      <button
-        type="button"
-        onClick={() => setShowChoice(true)}
-        className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700"
-      >
+      <Button variant="primary" onClick={() => setShowChoice(true)}>
         Beitreten
-      </button>
+      </Button>
     );
   }
 
   return (
-    <div className="space-y-3 rounded-lg border border-zinc-200 bg-white p-4">
-      <p className="text-sm font-medium">Kommst du allein oder mit jemandem?</p>
+    <div className="space-y-3 rounded-card border border-line bg-surface p-4">
+      <p className="text-sm font-semibold text-ink">
+        Kommst du allein oder mit jemandem?
+      </p>
       <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={pending}
-          onClick={() => join(true)}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-60"
-        >
+        <Button variant="primary" loading={pending} onClick={() => join(true)}>
           Ich komme allein
-        </button>
-        <button
-          type="button"
-          disabled={pending}
-          onClick={() => join(false)}
-          className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:border-zinc-500 disabled:opacity-60"
-        >
+        </Button>
+        <Button variant="ghost" disabled={pending} onClick={() => join(false)}>
           Mit Begleitung
-        </button>
+        </Button>
         <button
           type="button"
           disabled={pending}
           onClick={() => setShowChoice(false)}
-          className="px-2 py-2 text-sm text-zinc-500 hover:text-zinc-800"
+          className="px-2 py-2 text-sm text-muted hover:text-ink"
         >
           Abbrechen
         </button>

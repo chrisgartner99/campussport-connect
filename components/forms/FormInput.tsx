@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes } from "react";
+import { fieldClasses } from "@/components/ui/Input";
 
 type Props = {
   label: string;
@@ -7,19 +8,14 @@ type Props = {
   hint?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export default function FormInput({ label, name, hint, ...rest }: Props) {
+export default function FormInput({ label, name, hint, className = "", ...rest }: Props) {
   return (
-    <div className="space-y-1">
-      <label htmlFor={name} className="block text-sm font-medium">
+    <div className="space-y-1.5">
+      <label htmlFor={name} className="block text-sm font-semibold text-ink">
         {label}
       </label>
-      <input
-        id={name}
-        name={name}
-        className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
-        {...rest}
-      />
-      {hint && <p className="text-xs text-zinc-500">{hint}</p>}
+      <input id={name} name={name} className={`${fieldClasses} ${className}`.trim()} {...rest} />
+      {hint && <p className="text-xs text-muted">{hint}</p>}
     </div>
   );
 }

@@ -3,8 +3,12 @@
 import { useActionState, useState } from "react";
 import { completeOnboarding } from "@/lib/actions/profile";
 import { NIVEAUS, SPORTARTEN } from "@/lib/constants";
+import { SportIcon } from "@/lib/sports";
 import FormError from "@/components/forms/FormError";
 import SubmitButton from "@/components/forms/SubmitButton";
+import Chip from "@/components/ui/Chip";
+import { buttonClasses } from "@/components/ui/Button";
+import { fieldClasses } from "@/components/ui/Input";
 
 const SEMESTER_OPTIONEN = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
 
@@ -15,33 +19,21 @@ type InitialProfile = {
   niveau: string | null;
 } | null;
 
-const STEPS = [
-  "Semester & Studiengang",
-  "Sportarten",
-  "Niveau",
-] as const;
+const STEPS = ["Semester & Studiengang", "Sportarten", "Niveau"] as const;
 
-export default function OnboardingForm({
-  initial,
-}: {
-  initial: InitialProfile;
-}) {
+export default function OnboardingForm({ initial }: { initial: InitialProfile }) {
   const [step, setStep] = useState(0);
   const [semester, setSemester] = useState(
     initial?.semester ? (initial.semester >= 10 ? "10+" : String(initial.semester)) : ""
   );
   const [studiengang, setStudiengang] = useState(initial?.studiengang ?? "");
-  const [sportarten, setSportarten] = useState<string[]>(
-    initial?.sportarten ?? []
-  );
+  const [sportarten, setSportarten] = useState<string[]>(initial?.sportarten ?? []);
   const [niveau, setNiveau] = useState(initial?.niveau ?? "");
   const [state, formAction] = useActionState(completeOnboarding, null);
 
   const toggleSportart = (sportart: string) =>
     setSportarten((prev) =>
-      prev.includes(sportart)
-        ? prev.filter((s) => s !== sportart)
-        : [...prev, sportart]
+      prev.includes(sportart) ? prev.filter((s) => s !== sportart) : [...prev, sportart]
     );
 
   const stepValid =
@@ -53,12 +45,12 @@ export default function OnboardingForm({
     <form action={formAction} className="space-y-6">
       {/* Fortschrittsanzeige */}
       <div className="space-y-2">
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm font-medium text-muted">
           Schritt {step + 1} von {STEPS.length}: {STEPS[step]}
         </p>
-        <div className="h-1.5 w-full rounded-full bg-zinc-200">
+        <div className="h-2 w-full overflow-hidden rounded-full bg-surface-2">
           <div
-            className="h-1.5 rounded-full bg-zinc-900 transition-all"
+            className="h-2 rounded-full bg-brand-strong transition-all"
             style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
           />
         </div>
@@ -67,28 +59,22 @@ export default function OnboardingForm({
       {step === 0 && (
         <div className="space-y-5">
           <fieldset className="space-y-2">
-            <legend className="text-lg font-medium">
-              In welchem Semester bist du?
-            </legend>
+            <legend className="text-lg font-bold">In welchem Semester bist du?</legend>
             <div className="flex flex-wrap gap-2">
               {SEMESTER_OPTIONEN.map((option) => (
-                <button
+                <Chip
                   key={option}
-                  type="button"
+                  selected={semester === option}
                   onClick={() => setSemester(option)}
-                  className={`rounded-md border px-3 py-1.5 text-sm ${
-                    semester === option
-                      ? "border-zinc-900 bg-zinc-900 text-white"
-                      : "border-zinc-300 bg-white hover:border-zinc-500"
-                  }`}
+                  className="px-3"
                 >
                   {option}
-                </button>
+                </Chip>
               ))}
             </div>
           </fieldset>
-          <div className="space-y-1">
-            <label htmlFor="studiengang-input" className="text-lg font-medium">
+          <div className="space-y-1.5">
+            <label htmlFor="studiengang-input" className="text-lg font-bold">
               Was studierst du?
             </label>
             <input
@@ -97,7 +83,7 @@ export default function OnboardingForm({
               value={studiengang}
               onChange={(e) => setStudiengang(e.target.value)}
               placeholder="z. B. Wirtschaftsinformatik"
-              className="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none"
+              className={fieldClasses}
             />
           </div>
         </div>
@@ -105,26 +91,23 @@ export default function OnboardingForm({
 
       {step === 1 && (
         <fieldset className="space-y-2">
-          <legend className="text-lg font-medium">
+          <legend className="text-lg font-bold">
             Welche Sportarten interessieren dich?
           </legend>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted">
             Wähle alles aus, worauf du Lust hast – du kannst es später ändern.
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
             {SPORTARTEN.map((sportart) => (
-              <button
+              <Chip
                 key={sportart}
-                type="button"
+                selected={sportarten.includes(sportart)}
                 onClick={() => toggleSportart(sportart)}
-                className={`rounded-full border px-4 py-1.5 text-sm ${
-                  sportarten.includes(sportart)
-                    ? "border-zinc-900 bg-zinc-900 text-white"
-                    : "border-zinc-300 bg-white hover:border-zinc-500"
-                }`}
+                className="inline-flex items-center gap-1.5"
               >
+                <SportIcon sportart={sportart} size={14} />
                 {sportart}
-              </button>
+              </Chip>
             ))}
           </div>
         </fieldset>
@@ -132,26 +115,25 @@ export default function OnboardingForm({
 
       {step === 2 && (
         <fieldset className="space-y-2">
-          <legend className="text-lg font-medium">
-            Wie schätzt du dein Niveau ein?
-          </legend>
+          <legend className="text-lg font-bold">Wie schätzt du dein Niveau ein?</legend>
           <div className="grid gap-2 sm:grid-cols-3">
             {NIVEAUS.map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => setNiveau(option)}
-                className={`rounded-md border px-4 py-3 text-sm ${
+                aria-pressed={niveau === option}
+                className={`rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${
                   niveau === option
-                    ? "border-zinc-900 bg-zinc-900 text-white"
-                    : "border-zinc-300 bg-white hover:border-zinc-500"
+                    ? "border-brand-strong bg-brand-strong text-on-brand"
+                    : "border-line bg-surface text-ink hover:border-brand"
                 }`}
               >
                 {option}
               </button>
             ))}
           </div>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-muted">
             Keine Sorge, viele Treffen sind ausdrücklich anfängerfreundlich.
           </p>
         </fieldset>
@@ -172,7 +154,7 @@ export default function OnboardingForm({
           <button
             type="button"
             onClick={() => setStep(step - 1)}
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm hover:border-zinc-500"
+            className={buttonClasses("ghost", "md")}
           >
             Zurück
           </button>
@@ -184,12 +166,12 @@ export default function OnboardingForm({
             type="button"
             onClick={() => setStep(step + 1)}
             disabled={!stepValid}
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className={buttonClasses("primary", "md")}
           >
             Weiter
           </button>
         ) : (
-          <div className="w-40">
+          <div className="w-44">
             <SubmitButton>Los geht&apos;s!</SubmitButton>
           </div>
         )}

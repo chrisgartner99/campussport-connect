@@ -1,0 +1,52 @@
+import { createElement } from "react";
+import {
+  Activity,
+  CircleDot,
+  Disc2,
+  Dumbbell,
+  Feather,
+  Footprints,
+  Goal,
+  Mountain,
+  Target,
+  Volleyball,
+  Waves,
+  type LucideIcon,
+} from "lucide-react";
+
+/** Zentrale Zuordnung Sportart → Icon. Fallback: Activity. */
+export const SPORT_ICONS: Record<string, LucideIcon> = {
+  Badminton: Feather,
+  Fußball: Goal,
+  "Fitness/Gym": Dumbbell,
+  Laufen: Footprints,
+  Volleyball: Volleyball,
+  Basketball: CircleDot,
+  Tennis: Target,
+  Bouldern: Mountain,
+  Schwimmen: Waves,
+  Tischtennis: Disc2,
+};
+
+export function sportIcon(sportart: string): LucideIcon {
+  return SPORT_ICONS[sportart] ?? Activity;
+}
+
+/** Icon zu einer Sportart, einheitlich eingebunden. */
+export function SportIcon({
+  sportart,
+  className,
+  size = 16,
+}: {
+  sportart: string;
+  className?: string;
+  size?: number;
+}) {
+  // createElement statt <Icon/>, damit der Lookup nicht als "Komponente
+  // im Render erzeugt" gewertet wird.
+  return createElement(sportIcon(sportart), {
+    size,
+    className,
+    "aria-hidden": true,
+  });
+}

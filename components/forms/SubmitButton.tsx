@@ -2,15 +2,29 @@
 
 import type { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
+import { buttonClasses } from "@/components/ui/Button";
 
-export default function SubmitButton({ children }: { children: ReactNode }) {
+export default function SubmitButton({
+  children,
+  variant = "primary",
+}: {
+  children: ReactNode;
+  variant?: "primary" | "secondary";
+}) {
   const { pending } = useFormStatus();
   return (
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+      aria-busy={pending || undefined}
+      className={buttonClasses(variant, "md", "w-full")}
     >
+      {pending && (
+        <span
+          className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+          aria-hidden
+        />
+      )}
       {pending ? "Bitte warten …" : children}
     </button>
   );
