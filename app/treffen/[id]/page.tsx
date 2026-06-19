@@ -13,9 +13,11 @@ import { createClient } from "@/lib/supabase/server";
 import { getMeetingDetail } from "@/lib/meetings";
 import { formatMeetingDate } from "@/lib/format";
 import { SportIcon } from "@/lib/sports";
+import { meetingLevel } from "@/lib/meetingLevel";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
 import Avatar from "@/components/ui/Avatar";
+import CapacityBar from "@/components/ui/CapacityBar";
 import JoinControls from "./JoinControls";
 
 export default async function TreffenDetailPage({
@@ -30,6 +32,7 @@ export default async function TreffenDetailPage({
   }
 
   const { meeting, participants, allein_count } = detail;
+  const level = meetingLevel(meeting);
 
   const supabase = await createClient();
   const {
@@ -57,46 +60,34 @@ export default async function TreffenDetailPage({
             <SportIcon sportart={meeting.sportart} size={13} />
             {meeting.sportart}
           </Badge>
-          {meeting.erstie_freundlich && (
-            <Badge tone="success">
-              <Sparkles size={13} />
-              Anfängerfreundlich
-            </Badge>
-          )}
-          {meeting.niveau && (
-            <Badge tone="neutral">
-              <TrendingUp size={13} />
-              {meeting.niveau}
-            </Badge>
-          )}
+          {/* Klare Einstufung des Treffens */}
+          <Badge tone={level.tone}>
+            {meeting.erstie_freundlich ? <Sparkles size={13} /> : <TrendingUp size={13} />}
+            {level.label}
+          </Badge>
+          {meeting.niveau && <Badge tone="neutral">Niveau: {meeting.niveau}</Badge>}
         </div>
         <h1 className="headline text-[clamp(2.25rem,6vw,3.5rem)]">{meeting.titel}</h1>
       </header>
 
-      <Card className="grid gap-4 text-sm sm:grid-cols-3">
-        <div className="flex items-start gap-2">
-          <CalendarDays size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
-          <div>
-            <dt className="text-muted">Wann</dt>
-            <dd className="font-semibold">{formatMeetingDate(meeting.datum)}</dd>
+      <Card className="space-y-4 text-sm">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="flex items-start gap-2">
+            <CalendarDays size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+            <div>
+              <dt className="text-muted">Wann</dt>
+              <dd className="font-semibold">{formatMeetingDate(meeting.datum)}</dd>
+            </div>
+          </div>
+          <div className="flex items-start gap-2">
+            <MapPin size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+            <div>
+              <dt className="text-muted">Wo</dt>
+              <dd className="font-semibold">{meeting.ort}</dd>
+            </div>
           </div>
         </div>
-        <div className="flex items-start gap-2">
-          <MapPin size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
-          <div>
-            <dt className="text-muted">Wo</dt>
-            <dd className="font-semibold">{meeting.ort}</dd>
-          </div>
-        </div>
-        <div className="flex items-start gap-2">
-          <Users size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
-          <div>
-            <dt className="text-muted">Plätze</dt>
-            <dd className="font-semibold">
-              {participants.length} von {meeting.max_plaetze} belegt
-            </dd>
-          </div>
-        </div>
+        <CapacityBar belegt={participants.length} max={meeting.max_plaetze} />
       </Card>
 
       {meeting.beschreibung && (
@@ -141,7 +132,16 @@ export default async function TreffenDetailPage({
         )}
       </section>
 
-      <div className="border-t border-line pt-5">
+      <div className="space-y-3 border-t border-line pt-5">
+        <div className="flex items-start gap-3 rounded-card bg-surface-2 px-4 py-3 text-sm text-ink">
+          <Sparkles size={18} className="mt-0.5 shrink-0 text-brand-strong" aria-hidden />
+          <p>
+            Beitreten ist eine <strong className="font-bold">verbindliche Zusage</strong> –
+            so können sich alle aufeinander verlassen. Du kannst aber jederzeit
+            wieder absagen. Und keine Sorge: Du kannst allein kommen, viele
+            andere auch.
+          </p>
+        </div>
         <JoinControls
           meetingId={meeting.id}
           isLoggedIn={!!user}

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { SendHorizontal, MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { conversationFilter, type Message } from "@/lib/conversation";
+import { markConversationRead } from "@/lib/actions/messages";
 import Avatar from "@/components/ui/Avatar";
 
 type Friend = { id: string; name: string; preview: string | null };
@@ -40,6 +41,8 @@ export default function ChatClient({
       .then(({ data }) => {
         if (aktiv) setMessages((data ?? []) as Message[]);
       });
+    // Konversation als gelesen markieren (aktualisiert das Header-Badge).
+    markConversationRead(selectedId);
     return () => {
       aktiv = false;
     };
@@ -62,6 +65,8 @@ export default function ChatClient({
             setMessages((prev) =>
               prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
             );
+            // Offene Konversation: eingehende Nachricht gilt als gelesen.
+            markConversationRead(selectedId);
           }
         }
       )

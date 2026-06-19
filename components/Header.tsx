@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { getNotificationCounts } from "@/lib/notifications";
 import UserMenu from "@/components/UserMenu";
 import ThemeToggle from "@/components/ThemeToggle";
 import MobileNav from "@/components/MobileNav";
+import NotificationBell from "@/components/NotificationBell";
 import { buttonClasses } from "@/components/ui/Button";
 
 const publicNav = [
@@ -25,18 +27,19 @@ export default async function Header() {
   } = await supabase.auth.getUser();
 
   let vorname: string | null = null;
+  let counts = { requests: 0, messages: 0, total: 0 };
   if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("name")
-      .eq("id", user.id)
-      .maybeSingle();
+    const [{ data: profile }, notif] = await Promise.all([
+      supabase.from("profiles").select("name").eq("id", user.id).maybeSingle(),
+      getNotificationCounts(user.id),
+    ]);
     const name =
       profile?.name ??
       user.user_metadata?.name?.toString() ??
       user.email ??
       "Profil";
     vorname = name.split(" ")[0];
+    counts = notif;
   }
 
   const items = [...publicNav, ...(vorname ? authNav : [])];
@@ -71,6 +74,7 @@ export default async function Header() {
               </Link>
             ))}
           </div>
+          {vorname && <NotificationBell counts={counts} />}
           <ThemeToggle />
           {vorname ? (
             <UserMenu vorname={vorname} />

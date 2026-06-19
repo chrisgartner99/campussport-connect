@@ -15,6 +15,7 @@ import { NIVEAUS, SPORTARTEN } from "@/lib/constants";
 import FormError from "@/components/forms/FormError";
 import SubmitButton from "@/components/forms/SubmitButton";
 import { fieldClasses } from "@/components/ui/Input";
+import NiveauHelp from "@/components/NiveauHelp";
 
 const labelClass = "flex items-center gap-1.5 text-sm font-semibold text-ink";
 
@@ -85,6 +86,7 @@ export default function NeuesTreffenForm() {
               </option>
             ))}
           </select>
+          <NiveauHelp />
         </div>
         <div className="space-y-1.5">
           <label htmlFor="max_plaetze" className={labelClass}>

@@ -8,6 +8,7 @@ import FormInput from "@/components/forms/FormInput";
 import FormError from "@/components/forms/FormError";
 import SubmitButton from "@/components/forms/SubmitButton";
 import Chip from "@/components/ui/Chip";
+import NiveauHelp from "@/components/NiveauHelp";
 import { CircleCheckBig } from "lucide-react";
 
 const SEMESTER_OPTIONEN = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
@@ -112,6 +113,7 @@ export default function ProfilForm({ initial }: { initial: ProfilWerte }) {
             </button>
           ))}
         </div>
+        <NiveauHelp />
       </fieldset>
 
       <input type="hidden" name="semester" value={semester.replace("+", "")} />

@@ -9,6 +9,7 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import Chip from "@/components/ui/Chip";
 import { buttonClasses } from "@/components/ui/Button";
 import { fieldClasses } from "@/components/ui/Input";
+import NiveauHelp from "@/components/NiveauHelp";
 
 const SEMESTER_OPTIONEN = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
 
@@ -133,6 +134,7 @@ export default function OnboardingForm({ initial }: { initial: InitialProfile })
               </button>
             ))}
           </div>
+          <NiveauHelp />
           <p className="text-sm text-muted">
             Keine Sorge, viele Treffen sind ausdrücklich anfängerfreundlich.
           </p>

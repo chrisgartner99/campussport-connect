@@ -64,6 +64,21 @@ einheitlich das Passwort `Demo1234!`.
 | Anfragen an andere Studierende | Soziale Hemmung beim Ansprechen neuer Personen |
 | Freundesliste + 1:1-Chat | Soziale Vernetzung über Sport, Kontakte halten und koordinieren |
 
+## User Testing Runde 1 → Maßnahmen
+
+Befunde aus der ersten Testrunde (4 Testpersonen) und die daraus
+umgesetzten Verbesserungen:
+
+| Befund aus dem Test | Maßnahme | Umgesetzt |
+| ------------------- | -------- | --------- |
+| 3 von 4 fanden eingehende Anfragen nicht | Glocken-Icon mit Zähler (offene Anfragen + ungelesene Nachrichten) im Header, mit Menü zu Anfragen und Chat | ✅ |
+| Anfragen wurden unter "Meine Treffen" UND im Chat vermutet | Hinweis-Banner „Du hast X offene Anfragen“ auf beiden Seiten, Link zum Anfragen-Bereich | ✅ |
+| Eine Person wollte beitreten, landete im Erstellen-Formular | „Meine Treffen“ trennt klar „Treffen finden & beitreten“ (primär) von „Eigenes Treffen erstellen“ (sekundär) | ✅ |
+| Teilnehmerzahl und Niveau zu unauffällig | Belegungs-Balken (X von Y belegt) und klare Einstufung als Badge auf Karten und Detailseite | ✅ |
+| Unklar, was die Treffen-Intensität ist | Kennzeichnung „Anfängerfreundlich / Gemischt / Leistungsorientiert“ aus `erstie_freundlich` + `niveau` | ✅ |
+| 2 Personen fragten, wie das Niveau gemeint ist | Kurze Erklärung der Stufen bei Onboarding, Profil und Treffen erstellen | ✅ |
+| 2 Personen unsicher, wie verbindlich die Anmeldung ist | Hinweis auf der Detailseite: verbindliche Zusage, jederzeit absagbar, „du kannst allein kommen“ | ✅ |
+
 ## Projektstruktur
 
 Siehe [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) für eine Übersicht der

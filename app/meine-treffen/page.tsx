@@ -12,6 +12,7 @@ import { formatMeetingDate } from "@/lib/format";
 import { SportIcon } from "@/lib/sports";
 import Badge, { type BadgeTone } from "@/components/ui/Badge";
 import Avatar from "@/components/ui/Avatar";
+import { buttonClasses } from "@/components/ui/Button";
 import RequestActions from "./RequestActions";
 
 type MeetingRow = {
@@ -113,6 +114,8 @@ export default async function MeineTreffenPage() {
     .eq("sender_id", user.id)
     .order("created_at", { ascending: false });
 
+  const offeneAnfragen = (erhalten ?? []).length;
+
   return (
     <section className="space-y-10">
       <div className="space-y-1">
@@ -120,6 +123,31 @@ export default async function MeineTreffenPage() {
         <p className="text-muted">
           Deine Teilnahmen, eigenen Treffen und Anfragen auf einen Blick.
         </p>
+      </div>
+
+      {/* Hinweis auf offene Anfragen – Nutzer suchen sie genau hier. */}
+      {offeneAnfragen > 0 && (
+        <Link
+          href="#anfragen"
+          className="flex items-center gap-3 rounded-card border border-brand/30 bg-brand-soft px-4 py-3 text-on-brand-soft transition-colors hover:border-brand/60"
+        >
+          <Inbox size={20} className="shrink-0" aria-hidden />
+          <span className="flex-1 text-sm font-semibold">
+            Du hast {offeneAnfragen} offene{" "}
+            {offeneAnfragen === 1 ? "Anfrage" : "Anfragen"} – jetzt ansehen
+          </span>
+          <ArrowRight size={16} className="shrink-0" aria-hidden />
+        </Link>
+      )}
+
+      {/* Finden vs. Erstellen klar getrennt. */}
+      <div className="flex flex-wrap gap-3">
+        <Link href="/treffen" className={buttonClasses("primary", "md")}>
+          Treffen finden &amp; beitreten
+        </Link>
+        <Link href="/treffen/neu" className={buttonClasses("ghost", "md")}>
+          Eigenes Treffen erstellen
+        </Link>
       </div>
 
       <div className="space-y-3">
@@ -158,7 +186,7 @@ export default async function MeineTreffenPage() {
         )}
       </div>
 
-      <div className="space-y-4">
+      <div id="anfragen" className="scroll-mt-24 space-y-4">
         <SectionTitle icon={Inbox}>Anfragen</SectionTitle>
 
         <div className="space-y-2">

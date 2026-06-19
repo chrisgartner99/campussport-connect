@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { MessagesSquare } from "lucide-react";
+import { MessagesSquare, Inbox, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getFriends } from "@/lib/friends";
 import { getConversation } from "@/lib/messages";
+import { getNotificationCounts } from "@/lib/notifications";
 import EmptyState from "@/components/ui/EmptyState";
 import { buttonClasses } from "@/components/ui/Button";
 import ChatClient from "./ChatClient";
@@ -51,6 +52,8 @@ export default async function ChatPage({
     ? await getConversation(user.id, selectedId)
     : [];
 
+  const { requests: offeneAnfragen } = await getNotificationCounts(user.id);
+
   return (
     <section className="space-y-6">
       <div className="space-y-1">
@@ -59,6 +62,22 @@ export default async function ChatPage({
           Schreibe mit deinen Freunden, um Treffen zu koordinieren.
         </p>
       </div>
+
+      {/* Anfragen sind nicht hier, sondern unter "Meine Treffen" – klar verlinken. */}
+      {offeneAnfragen > 0 && (
+        <Link
+          href="/meine-treffen#anfragen"
+          className="flex items-center gap-3 rounded-card border border-brand/30 bg-brand-soft px-4 py-3 text-on-brand-soft transition-colors hover:border-brand/60"
+        >
+          <Inbox size={20} className="shrink-0" aria-hidden />
+          <span className="flex-1 text-sm font-semibold">
+            Du hast {offeneAnfragen} offene{" "}
+            {offeneAnfragen === 1 ? "Anfrage" : "Anfragen"}. Anfragen findest du
+            unter „Meine Treffen“.
+          </span>
+          <ArrowRight size={16} className="shrink-0" aria-hidden />
+        </Link>
+      )}
 
       {friendList.length === 0 ? (
         <EmptyState

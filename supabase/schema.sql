@@ -67,9 +67,14 @@ create table if not exists public.messages (
   sender_id uuid not null references public.profiles (id) on delete cascade,
   empfaenger_id uuid not null references public.profiles (id) on delete cascade,
   inhalt text not null,
+  gelesen boolean not null default false,
   created_at timestamptz not null default now(),
   check (sender_id <> empfaenger_id)
 );
+
+-- Lese-Status für bestehende Installationen nachrüsten (idempotent).
+alter table public.messages
+  add column if not exists gelesen boolean not null default false;
 
 -- ---------------------------------------------------------------------------
 -- Trigger: angenommener Request legt automatisch eine Freundschaft an
@@ -204,6 +209,12 @@ drop policy if exists "messages_insert_own" on public.messages;
 create policy "messages_insert_own" on public.messages
   for insert to authenticated with check (sender_id = auth.uid());
 
+-- Empfänger darf eigene erhaltene Nachrichten als gelesen markieren.
+drop policy if exists "messages_update_empfaenger" on public.messages;
+create policy "messages_update_empfaenger" on public.messages
+  for update to authenticated
+  using (empfaenger_id = auth.uid()) with check (empfaenger_id = auth.uid());
+
 -- ---------------------------------------------------------------------------
 -- Indizes
 -- ---------------------------------------------------------------------------
@@ -230,6 +241,11 @@ create index if not exists messages_pair_idx
     (greatest(sender_id, empfaenger_id)),
     created_at
   );
+
+-- Ungelesene Nachrichten eines Empfängers (Benachrichtigungs-Badge)
+create index if not exists messages_unread_idx
+  on public.messages (empfaenger_id)
+  where gelesen = false;
 
 -- ---------------------------------------------------------------------------
 -- Realtime

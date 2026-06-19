@@ -1,15 +1,18 @@
 import Link from "next/link";
-import { CalendarDays, MapPin, Users, Sparkles, TrendingUp, ArrowRight } from "lucide-react";
+import { CalendarDays, MapPin, Sparkles, TrendingUp, ArrowRight } from "lucide-react";
 import type { MeetingWithStats } from "@/lib/meetings";
 import { formatMeetingDate } from "@/lib/format";
 import { SportIcon, sportTone } from "@/lib/sports";
+import { meetingLevel } from "@/lib/meetingLevel";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import CapacityBar from "@/components/ui/CapacityBar";
 import { buttonClasses } from "@/components/ui/Button";
 
 /* ── Hervorgehobenes "Treffen der Woche" (gedrencht, große Kachel) ───────── */
 function FeaturedCard({ meeting }: { meeting: MeetingWithStats }) {
   const voll = meeting.freie_plaetze === 0;
+  const level = meetingLevel(meeting);
   return (
     <div className="grain relative flex h-full flex-col gap-4 overflow-hidden rounded-card bg-brand-deep p-6 sm:p-8">
       <div className="relative flex flex-wrap items-center gap-2">
@@ -20,6 +23,10 @@ function FeaturedCard({ meeting }: { meeting: MeetingWithStats }) {
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
           <SportIcon sportart={meeting.sportart} size={13} />
           {meeting.sportart}
+        </span>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+          <TrendingUp size={13} aria-hidden />
+          {level.label}
         </span>
       </div>
 
@@ -36,11 +43,11 @@ function FeaturedCard({ meeting }: { meeting: MeetingWithStats }) {
           <MapPin size={16} className="text-accent" aria-hidden />
           {meeting.ort}
         </div>
-        <div className="flex items-center gap-2">
-          <Users size={16} className="text-accent" aria-hidden />
-          {meeting.teilnehmer_count} von {meeting.max_plaetze} dabei
-        </div>
       </dl>
+
+      <div className="relative">
+        <CapacityBar belegt={meeting.teilnehmer_count} max={meeting.max_plaetze} tone="dark" />
+      </div>
 
       {meeting.teilnehmer_count > 0 && (
         <p className="relative w-fit rounded-lg bg-white/15 px-3 py-1.5 text-sm font-semibold text-white">
@@ -83,8 +90,8 @@ export default function MeetingCard({
 }) {
   if (featured) return <FeaturedCard meeting={meeting} />;
 
-  const belegt = meeting.teilnehmer_count;
   const voll = meeting.freie_plaetze === 0;
+  const level = meetingLevel(meeting);
 
   return (
     <Card interactive className="flex h-full flex-col gap-3">
@@ -102,17 +109,13 @@ export default function MeetingCard({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {meeting.erstie_freundlich && (
-          <Badge tone="success">
-            <Sparkles size={13} />
-            Anfängerfreundlich
-          </Badge>
-        )}
+        {/* Klare Einstufung – aus erstie_freundlich + niveau abgeleitet. */}
+        <Badge tone={level.tone}>
+          {meeting.erstie_freundlich ? <Sparkles size={13} /> : <TrendingUp size={13} />}
+          {level.label}
+        </Badge>
         {meeting.niveau && (
-          <Badge tone="neutral">
-            <TrendingUp size={13} />
-            {meeting.niveau}
-          </Badge>
+          <Badge tone="neutral">Niveau: {meeting.niveau}</Badge>
         )}
       </div>
 
@@ -127,15 +130,9 @@ export default function MeetingCard({
           <dt className="sr-only">Wo</dt>
           <dd>{meeting.ort}</dd>
         </div>
-        <div className="flex items-center gap-2">
-          <Users size={15} className="shrink-0 text-brand-strong" aria-hidden />
-          <dt className="sr-only">Plätze</dt>
-          <dd>
-            {belegt} von {meeting.max_plaetze} Plätzen belegt
-            {voll && <span className="ml-1 font-semibold text-danger">(ausgebucht)</span>}
-          </dd>
-        </div>
       </dl>
+
+      <CapacityBar belegt={meeting.teilnehmer_count} max={meeting.max_plaetze} />
 
       {meeting.teilnehmer_count > 0 && (
         <p
